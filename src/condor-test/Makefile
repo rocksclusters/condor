@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.20 2008/03/06 23:41:49 mjk Exp $
+# $Id: Makefile,v 1.21 2008/04/30 14:24:41 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.21  2008/04/30 14:24:41  phil
+# Bootstrap correctly so that examples will build
+#
 # Revision 1.20  2008/03/06 23:41:49  mjk
 # copyright storm on
 #
@@ -130,18 +133,14 @@ SEDSPEC += \
 	-e 's%@HMM@%$(HMM)%g' \
 	-e 's%@TUT@%$(TUT)%g' 
 
-ifeq ($(ARCH), x86_64)
-ARCHARGS = 'CFLAGS=-m32'
-endif
-
 version.mk: version.mk.in
 	/bin/cat version.mk.in ../version.mk > version.mk
 
 build: 
 	gunzip -c $(HMM).tar.gz | tar -x
-	( cd $(HMM); ./configure --prefix=$(PKGROOT) $(ARCHARGS); make; )
+	( . /etc/profile.d/rocks-condor.sh; cd $(HMM); ./configure --prefix=$(PKGROOT) $(ARCHARGS); make; )
 	gunzip -c $(TUT).tar.gz | tar -x
-	( cd $(TUT); ./configure --prefix=$(PKGROOT) --with-mpi=/usr/bin $(ARCHARGS); make; )
+	( . /etc/profile.d/rocks-condor.sh; cd $(TUT); ./configure --prefix=$(PKGROOT) --with-mpi=/usr/bin $(ARCHARGS); make; )
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)

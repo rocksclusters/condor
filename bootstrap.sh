@@ -2,7 +2,7 @@
 #
 # This file should remain OS independent
 #
-# $Id: bootstrap.sh,v 1.6 2008/03/06 23:41:49 mjk Exp $
+# $Id: bootstrap.sh,v 1.7 2008/04/30 14:24:40 phil Exp $
 #
 # @Copyright@
 # 
@@ -58,6 +58,9 @@
 # @Copyright@
 #
 # $Log: bootstrap.sh,v $
+# Revision 1.7  2008/04/30 14:24:40  phil
+# Bootstrap correctly so that examples will build
+#
 # Revision 1.6  2008/03/06 23:41:49  mjk
 # copyright storm on
 #
@@ -95,7 +98,20 @@
 . ../etc/bootstrap-functions.sh
 
 compile_and_install condor
-compile_and_install rocks-condor
+compile rocks
+install rocks-condor
 
 install_os_packages condor
 
+# Make sure we have the condor account
+# will complain if condor already exists, can ignore
+/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
+
+# Get the Condor Environment
+. /etc/profile.d/rocks-condor.sh
+
+# Put a basic condor_config in place 
+# this will complain about /var/opt/condor/log not existing on a clean machine. Can Ignore.
+if [ ! -f /opt/condor/etc/condor_config ]; then
+     /opt/condor/sbin/CondorConf  -n compute -t e -m localhost
+fi
