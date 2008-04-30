@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.11 2008/03/06 23:41:49 mjk Exp $
+# $Id: Makefile,v 1.12 2008/04/30 16:13:54 phil Exp $
 #
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.12  2008/04/30 16:13:54  phil
+# don't try to make the globus job manager - visit when new grid roll is built
+#
 # Revision 1.11  2008/03/06 23:41:49  mjk
 # copyright storm on
 #
@@ -91,7 +94,7 @@
 #
 
 #SRCDIRS = `find . -type d -maxdepth 1 -not -name CVS -not -name .`
-SRCDIRS = condor condor-test job-manager rocks usersguide command
+SRCDIRS = condor condor-test rocks usersguide command
 
 default:	rpm
 
