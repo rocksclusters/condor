@@ -1,0 +1,92 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+	<description>
+	Condor Checkpoint Server configuration.
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2008 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.0 www.rocksclusters.org
+	</copyright>
+
+	<changelog>
+	$Log: condor-checkpoint.xml,v $
+	Revision 1.17  2008/03/06 23:41:49  mjk
+	copyright storm on
+	
+	Revision 1.16  2007/06/23 04:03:32  mjk
+	mars hill copyright
+	
+	Revision 1.15  2006/09/11 22:47:54  mjk
+	monkey face copyright
+	
+	Revision 1.14  2006/08/10 00:10:11  mjk
+	4.2 copyright
+	
+	Revision 1.13  2005/10/12 18:08:56  mjk
+	final copyright for 4.1
+	
+	Revision 1.12  2005/09/16 01:02:31  mjk
+	updated copyright
+	
+	Revision 1.11  2005/05/24 21:22:05  mjk
+	update copyright, release is not any closer
+	
+	Revision 1.10  2005/03/02 20:39:37  mjk
+	cleanup kickstart tags
+	
+	Revision 1.9  2005/02/01 23:55:25  mjk
+	Do not use the roll="name" attribute of the package tags anymore, the
+	make roll step will do this for you.
+	
+	Revision 1.8  2004/01/30 04:32:34  mjk
+	coloring
+	
+	Revision 1.7  2003/11/13 00:31:35  nadya
+	post section: add making state dir for condor
+	update var name
+	comment out checkpoint server additions (have vanilla distro)
+	
+	Revision 1.6  2003/11/06 21:42:25  nadya
+	update path to condor_configure
+	
+	Revision 1.5  2003/11/04 19:42:12  nadya
+	Move appending to MANPATH to condor.xml from the other nodes
+	
+	Revision 1.4  2003/10/16 17:09:46  nadya
+	update path to condor_configure. why is it no in sbin ?!
+	
+	Revision 1.3  2003/10/16 05:06:30  nadya
+	add symlink to post section
+	
+	Revision 1.2  2003/10/16 00:07:50  nadya
+	add install-dir and local-dir options to condor_configure
+	
+	Revision 1.1  2003/10/14 20:22:54  nadya
+	initial revision
+	
+	</changelog>
+
+	<package>condor-checkpoint</package>
+
+<post>
+
+. /etc/profile.d/rocks-condor.sh
+rm -fr /state/partition1/condor
+mkdir -p  /state/partition1/condor 
+chown -R condor.condor /state/partition1/condor
+cd $CONDOR_ROOT
+$CONDOR_ROOT/sbin/condor_configure --owner=condor --install
+$CONDOR_ROOT/sbin/condor_configure --owner=condor \
+                                  --install-dir=$CONDOR_ROOT \
+                                  --local-dir=/state/partition1/condor \
+                                  --type=checkpoint \
+                                  --central-manager=<var name="Kickstart_PrivateHostname"/>.<var name="Kickstart_PrivateDNSDomain"/>
+
+</post>
+
+</kickstart> 
+

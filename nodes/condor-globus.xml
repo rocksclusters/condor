@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+        <description>
+
+        Condor Globus support
+
+        </description>
+
+        <changelog>
+        $Log: condor-globus.xml,v $
+        Revision 1.2  2005/03/02 20:39:37  mjk
+        cleanup kickstart tags
+
+        Revision 1.1  2004/10/13 06:22:36  nadya
+        initial revision
+
+
+        </changelog>
+
+        <package>condor-globus-job-manager</package>
+
+</kickstart> 
+

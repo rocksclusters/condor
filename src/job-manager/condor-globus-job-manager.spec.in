@@ -1,0 +1,189 @@
+# $Id: condor-globus-job-manager.spec.in,v 1.10 2008/03/06 23:41:49 mjk Exp $ 
+#
+# @Copyright@
+# 
+# 				Rocks(r)
+# 		         www.rocksclusters.org
+# 		            version 5.0 (V)
+# 
+# Copyright (c) 2000 - 2008 The Regents of the University of California.
+# All rights reserved.	
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+# 
+# 1. Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+# 
+# 2. Redistributions in binary form must reproduce the above copyright
+# notice unmodified and in its entirety, this list of conditions and the
+# following disclaimer in the documentation and/or other materials provided 
+# with the distribution.
+# 
+# 3. All advertising and press materials, printed or electronic, mentioning
+# features or use of this software must display the following acknowledgement: 
+# 
+# 	"This product includes software developed by the Rocks(r)
+# 	Cluster Group at the San Diego Supercomputer Center at the
+# 	University of California, San Diego and its contributors."
+# 
+# 4. Except as permitted for the purposes of acknowledgment in paragraph 3,
+# neither the name or logo of this software nor the names of its
+# authors may be used to endorse or promote products derived from this
+# software without specific prior written permission.  The name of the
+# software includes the following terms, and any derivatives thereof:
+# "Rocks", "Rocks Clusters", and "Avalanche Installer".  For licensing of 
+# the associated name, interested parties should contact Technology 
+# Transfer & Intellectual Property Services, University of California, 
+# San Diego, 9500 Gilman Drive, Mail Code 0910, La Jolla, CA 92093-0910, 
+# Ph: (858) 534-5815, FAX: (858) 534-7345, E-MAIL:invent@ucsd.edu
+# 
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 
+# @Copyright@
+#
+# $Log: condor-globus-job-manager.spec.in,v $
+# Revision 1.10  2008/03/06 23:41:49  mjk
+# copyright storm on
+#
+# Revision 1.9  2007/06/23 04:03:32  mjk
+# mars hill copyright
+#
+# Revision 1.8  2006/09/11 22:47:55  mjk
+# monkey face copyright
+#
+# Revision 1.7  2006/08/10 00:10:12  mjk
+# 4.2 copyright
+#
+# Revision 1.6  2005/10/12 18:08:57  mjk
+# final copyright for 4.1
+#
+# Revision 1.5  2005/09/16 01:02:33  mjk
+# updated copyright
+#
+# Revision 1.4  2005/06/20 20:15:59  nadya
+# add patches for x86_64 to make gpt-buold to create needed packages.
+#
+# Revision 1.3  2005/06/15 04:49:51  nadya
+# clean local install after configuring the globus_gram_reporter package
+#
+# Revision 1.2  2005/05/24 21:22:07  mjk
+# update copyright, release is not any closer
+#
+# Revision 1.1  2005/03/23 20:43:07  nadya
+# clean old entries, reorganize dirs
+#
+#
+
+
+Summary: Condor Globus Job Manager
+Name: @NAME@
+Version: @VERSION@
+Release: @RELEASE@
+Copyright: @COPYRIGHT@
+Vendor: @VENDOR@
+Group: System Environment/Base
+Source: %{name}-%{version}.tar.gz
+Buildroot: @VAR@/tmp/%{name}-buildroot
+
+
+%description
+
+Submit directly to Condor queues over Globus
+
+##
+## PREP
+##
+%prep
+%setup
+
+##
+## BUILD
+##
+%build
+
+export GLOBUS_LOCATION=@GLOBUS_LOCATION@
+export GPT_LOCATION=@GPT_LOCATION@
+export CONDOR_ROOT=@CONDOR_LOCATION@
+
+# this package requires other globus dependencies
+# so need the real /opt/nmi 
+# do extra work for x86_64 because need package patching
+if [ `./arch` = 'x86_64' ]; then
+   gunzip -c globus_gram_reporter-@VERSION_REPORTER@-src.tar.gz | tar -x
+   cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
+   cd ..
+   cd globus_gram_reporter-@VERSION_REPORTER@
+   $GPT_LOCATION/sbin/gpt-build @GLOBUS_FLAVOR@
+   cd ..
+else
+   $GPT_LOCATION/sbin/gpt-build \
+      globus_gram_reporter-@VERSION_REPORTER@-src.tar.gz @GLOBUS_FLAVOR@
+fi
+
+mkdir -p $RPM_BUILD_ROOT/$GLOBUS_LOCATION
+
+# copy installed files
+find $GLOBUS_LOCATION/etc/gpt/packages/globus_gram_reporter | cpio -pdu $RPM_BUILD_ROOT
+find $GLOBUS_LOCATION -name grid-info-gram-reporter.schema | cpio -pdu $RPM_BUILD_ROOT
+find $GLOBUS_LOCATION -name globus_gram_scheduler.h | cpio -pdu $RPM_BUILD_ROOT
+find $GLOBUS_LOCATION -name '*libglobus_gram_scheduler*' | cpio -pdu $RPM_BUILD_ROOT
+find $GLOBUS_LOCATION -name globus-gram-reporter | cpio -pdu $RPM_BUILD_ROOT
+
+# clean from build system 
+find $GLOBUS_LOCATION/etc/gpt/packages/globus_gram_reporter -type d -exec rm -rf {} \;
+find $GLOBUS_LOCATION -name grid-info-gram-reporter.schema -exec rm -f {} \;
+find $GLOBUS_LOCATION -name globus_gram_scheduler.h -exec rm -f {} \; 
+find $GLOBUS_LOCATION -name '*libglobus_gram_scheduler*' -exec rm -f {} \;
+find $GLOBUS_LOCATION -name globus-gram-reporter -type d -exec rm -rf {} \;
+
+mkdir -p $GLOBUS_LOCATION
+mount -t tmpfs tmpfs $GLOBUS_LOCATION
+
+# do extra work for x86_64 because need package patching
+if [ `./arch` = 'x86_64' ]; then
+   gunzip -c globus_gram_job_manager_setup_condor-@VERSION_JOB_MANAGER_SETUP@-src.tar.gz | tar -x
+   cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
+   cd ..
+   cd globus_gram_job_manager_setup_condor-@VERSION_JOB_MANAGER_SETUP@
+   $GPT_LOCATION/sbin/gpt-build 
+   cd ..
+else
+   $GPT_LOCATION/sbin/gpt-build \
+      globus_gram_job_manager_setup_condor-@VERSION_JOB_MANAGER_SETUP@-src.tar.gz
+fi
+
+$GPT_LOCATION/sbin/gpt-build \
+	globus_gram_reporter_setup_condor-@VERSION_REPORTER_SETUP@-src.tar.gz
+
+find $GLOBUS_LOCATION | cpio -pdu $RPM_BUILD_ROOT
+umount $GLOBUS_LOCATION
+
+##
+## INSTALL
+##
+%install
+
+
+##
+## FILES
+##
+%files
+/
+
+##
+## CLEAN
+##
+%clean
+/bin/rm -rf $RPM_BUILD_ROOT

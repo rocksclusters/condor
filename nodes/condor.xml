@@ -1,0 +1,98 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+	<description>
+	The Condor Roll.
+	</description>
+
+	<copyright>
+	Copyright (c) 2000 - 2008 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.0 www.rocksclusters.org
+	</copyright>
+
+	<changelog>
+	$Log: condor.xml,v $
+	Revision 1.17  2008/03/06 23:41:49  mjk
+	copyright storm on
+	
+	Revision 1.16  2007/06/23 04:03:32  mjk
+	mars hill copyright
+	
+	Revision 1.15  2007/06/11 20:58:24  phil
+	Move condor volatile files (execute/log/spool) to /var/opt/condor
+	condor config localization in /opt/condor
+	
+	Revision 1.14  2006/09/11 22:47:54  mjk
+	monkey face copyright
+	
+	Revision 1.13  2006/08/10 00:10:11  mjk
+	4.2 copyright
+	
+	Revision 1.12  2006/03/25 16:22:39  phil
+	Change to using file direction.
+	Add Condor_Master to database
+	
+	Revision 1.1  2006/03/13 20:20:23  vrowley
+	initial revisions from rocksclusters.org
+	
+	Revision 1.11  2005/10/12 18:08:56  mjk
+	final copyright for 4.1
+	
+	Revision 1.10  2005/09/16 01:02:31  mjk
+	updated copyright
+	
+	Revision 1.9  2005/06/16 21:50:31  nadya
+	no longer making compat libs, add dependency on what condor binaries need
+	
+	Revision 1.8  2005/05/24 21:22:05  mjk
+	update copyright, release is not any closer
+	
+	Revision 1.7  2005/03/02 20:39:37  mjk
+	cleanup kickstart tags
+	
+	Revision 1.6  2005/02/01 23:55:25  mjk
+	Do not use the roll="name" attribute of the package tags anymore, the
+	make roll step will do this for you.
+	
+	Revision 1.5  2004/03/10 00:09:29  fds
+	Add x86 compat libs pkg for x86_64
+	
+	Revision 1.4  2004/01/30 04:32:34  mjk
+	coloring
+	
+	Revision 1.3  2003/11/13 00:31:35  nadya
+	post section: add making state dir for condor
+	update var name
+	comment out checkpoint server additions (have vanilla distro)
+	
+	Revision 1.2  2003/11/04 19:42:12  nadya
+	Move appending to MANPATH to condor.xml from the other nodes
+	
+	Revision 1.1  2003/10/14 20:22:54  nadya
+	initial revision
+	
+	</changelog>
+
+	<package>rocks-condor</package>
+	<package>roll-condor-usersguide</package>
+	<package>compat-libstdc++-33</package>
+	<package>automake16</package>
+
+
+<post>
+<file name="/etc/man.config" mode="append">
+MANPATH /opt/condor/man
+</file>
+
+<file name="/etc/services" mode="append">
+condor_negotiator  9614/tcp     # Condor daemon 
+condor_collector   9618/tcp     # Condor daemon
+</file>
+
+/sbin/chkconfig --add rocks-condor
+</post>
+
+</kickstart> 
+

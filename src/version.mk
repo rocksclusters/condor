@@ -1,0 +1,2 @@
+VERSION		 = 7.0.1
+RELEASE		 = 1

@@ -1,0 +1,103 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+
+	<description>
+	The Condor Roll
+	</description>
+
+
+	<copyright>
+	Copyright (c) 2000 - 2008 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.0 www.rocksclusters.org
+	</copyright>
+
+
+	<changelog>
+	$Log: condor.xml,v $
+	Revision 1.17  2008/03/06 23:41:49  mjk
+	copyright storm on
+	
+	Revision 1.16  2007/07/12 20:37:17  phil
+	Ordering.
+	
+	Revision 1.15  2007/07/11 21:09:40  phil
+	Add rocks sync condor command.
+	Read config variables from database on each condor sync.
+	
+	Revision 1.14  2007/06/23 04:03:31  mjk
+	mars hill copyright
+	
+	Revision 1.13  2006/09/11 22:47:54  mjk
+	monkey face copyright
+	
+	Revision 1.12  2006/08/10 00:10:10  mjk
+	4.2 copyright
+	
+	Revision 1.11  2006/07/27 23:02:32  bruno
+	graph cleanup
+	
+	Revision 1.10  2005/11/01 21:35:26  nadya
+	rm condor-globus package. Assume that new grid roll has all job managers.
+	
+	Revision 1.9  2005/10/12 18:08:55  mjk
+	final copyright for 4.1
+	
+	Revision 1.8  2005/09/16 01:02:31  mjk
+	updated copyright
+	
+	Revision 1.7  2005/05/24 21:22:05  mjk
+	update copyright, release is not any closer
+	
+	Revision 1.6  2005/03/04 01:40:05  mjk
+	massive graph cleanup
+	
+	Revision 1.5  2004/10/13 06:24:14  nadya
+	add condor jobmanger nodes
+	
+	Revision 1.4  2004/02/09 20:21:47  nadya
+	remove checkpoint reference
+	
+	Revision 1.3  2003/11/13 19:25:25  nadya
+	remove condor-client edge from server
+	
+	Revision 1.2  2003/11/04 16:24:17  mjk
+	- comment out condor-checkpoint (RPM isn't on the roll yet)
+	- small syntax change, just to show both ways of doing things
+	
+	Revision 1.1  2003/10/14 20:21:30  nadya
+	initial revision
+	
+	</changelog>
+
+	<order head="database-data">
+		<tail>condor-server</tail>
+	</order>
+	<order head="condor">
+		<tail>condor-client</tail>
+		<tail>condor-server</tail>
+	</order>
+
+	<order head="condor-globus">
+		<tail>globus-server</tail>
+	</order>
+
+	<!--
+		make sure condor-server is after autofs-server due to
+		autofs-server setting up the default home directory for
+		useradd and condor-server setting up the condor user account
+	-->
+	<order head="autofs-server">
+		<tail>condor-server</tail>
+	</order>
+
+	<edge from="hpc-client" to="condor-client" arch="i386,x86_64"/>
+	<edge from="hpc-server" to="condor-server" arch="i386,x86_64"/>
+	<edge from="hpc-base"   to="condor"        arch="i386,x86_64"/>
+
+	<edge from="globus-server">
+		<to>condor-globus</to>
+	</edge>
+
+</graph>

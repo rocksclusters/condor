@@ -1,0 +1,180 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+    <description>
+    Condor client (submit/execute) machine configuration.
+    </description>
+
+    <copyright>
+    Copyright (c) 2000 - 2008 The Regents of the University of California.
+    All rights reserved. Rocks(r) v5.0 www.rocksclusters.org
+    </copyright>
+
+    <changelog>
+    $Log: condor-client.xml,v $
+    Revision 1.38  2008/03/06 23:41:49  mjk
+    copyright storm on
+
+    Revision 1.37  2007/08/29 21:28:56  phil
+    use shell vars when doing evals.
+
+    Revision 1.36  2007/07/15 01:37:14  phil
+    Syntax.
+
+    Revision 1.35  2007/07/14 02:27:17  phil
+    Syntax and variable substitution
+
+    Revision 1.34  2007/07/11 21:09:41  phil
+    Add rocks sync condor command.
+    Read config variables from database on each condor sync.
+
+    Revision 1.33  2007/07/06 03:18:20  phil
+    Set the Java heap for small memory and large memory machines.
+
+    Revision 1.32  2007/06/23 04:03:32  mjk
+    mars hill copyright
+
+    Revision 1.31  2007/06/11 20:58:24  phil
+    Move condor volatile files (execute/log/spool) to /var/opt/condor
+    condor config localization in /opt/condor
+
+    Revision 1.30  2006/09/11 22:47:54  mjk
+    monkey face copyright
+
+    Revision 1.29  2006/08/10 00:10:11  mjk
+    4.2 copyright
+
+    Revision 1.28  2006/08/08 23:26:38  phil
+    Modify java config so that java will start on large memory nodes
+
+    Revision 1.27  2006/07/31 20:00:13  phil
+    Log entry from previous version has unquoted xml and cause kpp to honk.
+
+
+    Revision 1.25  2006/03/25 16:22:39  phil
+    Change to using file direction.
+    Add Condor_Master to database
+
+    Revision 1.24  2005/10/12 18:08:56  mjk
+    final copyright for 4.1
+
+    Revision 1.23  2005/09/16 01:02:31  mjk
+    updated copyright
+
+    Revision 1.22  2005/06/16 00:29:52  nadya
+    configure central manager to be on public interface.
+
+    Revision 1.21  2005/06/15 18:40:01  nadya
+    update args for new CondorConf
+
+    Revision 1.20  2005/05/24 21:22:05  mjk
+    update copyright, release is not any closer
+
+    Revision 1.19  2005/03/23 20:43:46  nadya
+    remove old entries
+
+    Revision 1.18  2005/03/02 20:39:37  mjk
+    cleanup kickstart tags
+
+    Revision 1.17  2005/02/03 19:57:45  nadya
+    add environment for java universe configuration
+
+    Revision 1.15  2004/10/04 23:36:03  nadya
+    change to private domain
+
+    Revision 1.13  2004/05/20 22:51:56  nadya
+    deal with cleaining /state/partition/condor/ in post-90 script
+    
+    Revision 1.12  2004/01/30 04:32:34  mjk
+    coloring
+    
+    Revision 1.11  2003/11/14 22:07:24  nadya
+    use public domain
+    
+    Revision 1.10  2003/11/13 08:11:00  nadya
+    change pre- back to post-
+    
+    Revision 1.9  2003/11/13 06:19:16  nadya
+    change scripts from post- to pre-
+    
+    Revision 1.8  2003/11/13 03:04:18  nadya
+    move condor configuration and anything related to post-90-condor*
+    
+    Revision 1.7  2003/11/13 00:31:35  nadya
+    post section: add making state dir for condor
+    update var name
+    comment out checkpoint server additions (have vanilla distro)
+    
+    Revision 1.6  2003/11/06 21:42:25  nadya
+    update path to condor_configure
+    
+    Revision 1.5  2003/11/04 19:42:12  nadya
+    Move appending to MANPATH to condor.xml from the other nodes
+    
+    Revision 1.4  2003/10/16 17:09:46  nadya
+    update path to condor_configure. why is it no in sbin ?!
+    
+    Revision 1.3  2003/10/16 05:06:30  nadya
+    add symlink to post section
+    
+    Revision 1.2  2003/10/16 00:07:50  nadya
+    add install-dir and local-dir options to condor_configure
+    
+    Revision 1.1  2003/10/14 20:22:54  nadya
+    initial revision
+    
+    </changelog>
+
+    <package>condor</package>
+
+<post>
+
+<file name="/etc/rc.d/rocksconfig.d/post-90-condor-client" perms="0755"> 
+#!/bin/sh
+
+LOCAL_DIR=/var/opt/condor
+rm -fr  $LOCAL_DIR
+mkdir -p  $LOCAL_DIR
+
+chown -R condor.condor $LOCAL_DIR
+
+if [ -f /etc/profile.d/java.sh ]; then
+   . /etc/profile.d/java.sh
+fi
+. /etc/profile.d/rocks-condor.sh
+cd $CONDOR_ROOT
+$CONDOR_ROOT/sbin/CondorConf -n compute -t se -m <var name="Condor_Master"/> --localdomain=<var name="Kickstart_PrivateDNSDomain"/>
+
+<!-- With large memory footprints, java doesn't start. See
+http://www.cs.wisc.edu/condor/manual/v6.8/3_14Java_Support.html#sec:java-install
+for workaround used here -->
+cat &gt;&gt; /opt/condor/etc/condor_config.local  &lt;&lt; 'CONFEOF'
+# First set JAVA_MAXHEAP_ARGUMENT to null, to disable the default of max RAM
+JAVA_MAXHEAP_ARGUMENT =
+# Now set the argument with the Sun-specific maximum allowable value
+CONFEOF
+
+export localmem=`/usr/bin/free -m | awk '/^Mem:/{print $2}'`
+if [ $localmem -gt 1906 ] ; then
+	localmem=1906
+fi
+echo "JAVA_EXTRA_ARGUMENTS = -Xmx${localmem}m" &gt;&gt; /opt/condor/etc/condor_config.local
+
+<!-- adjust the NETWORK INTERFACE to the Logical Network Set by Condor_ClientNetwork -->
+condorNet=''
+if [ "x<var name="Condor_ClientNetwork"/>" != "x" ]; then
+	condorNet=<eval>/opt/rocks/bin/rocks list host interface $Node_Hostname | grep $Condor_ClientNetwork | /bin/awk '{printf "%s",$4}' | tr -d '-'</eval>
+fi
+
+if [ "x$condorNet" != "x" ]; then
+	/bin/sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local 
+	echo "NETWORK_INTERFACE = $condorNet" &gt;&gt; /opt/condor/etc/condor_config.local
+fi
+</file>
+
+</post>
+
+</kickstart> 
+

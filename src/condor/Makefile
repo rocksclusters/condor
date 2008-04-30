@@ -1,0 +1,194 @@
+# 
+# $Id: Makefile,v 1.21 2008/04/29 21:56:40 phil Exp $
+#
+# @Copyright@
+# 
+# 				Rocks(r)
+# 		         www.rocksclusters.org
+# 		            version 5.0 (V)
+# 
+# Copyright (c) 2000 - 2008 The Regents of the University of California.
+# All rights reserved.	
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+# 
+# 1. Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+# 
+# 2. Redistributions in binary form must reproduce the above copyright
+# notice unmodified and in its entirety, this list of conditions and the
+# following disclaimer in the documentation and/or other materials provided 
+# with the distribution.
+# 
+# 3. All advertising and press materials, printed or electronic, mentioning
+# features or use of this software must display the following acknowledgement: 
+# 
+# 	"This product includes software developed by the Rocks(r)
+# 	Cluster Group at the San Diego Supercomputer Center at the
+# 	University of California, San Diego and its contributors."
+# 
+# 4. Except as permitted for the purposes of acknowledgment in paragraph 3,
+# neither the name or logo of this software nor the names of its
+# authors may be used to endorse or promote products derived from this
+# software without specific prior written permission.  The name of the
+# software includes the following terms, and any derivatives thereof:
+# "Rocks", "Rocks Clusters", and "Avalanche Installer".  For licensing of 
+# the associated name, interested parties should contact Technology 
+# Transfer & Intellectual Property Services, University of California, 
+# San Diego, 9500 Gilman Drive, Mail Code 0910, La Jolla, CA 92093-0910, 
+# Ph: (858) 534-5815, FAX: (858) 534-7345, E-MAIL:invent@ucsd.edu
+# 
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 
+# @Copyright@
+#
+# $Log: Makefile,v $
+# Revision 1.21  2008/04/29 21:56:40  phil
+# Update to 7.0.1. Build under V
+#
+# Revision 1.20  2008/04/29 20:35:39  phil
+# Get rid of specific spec file
+#
+# Revision 1.19  2008/03/06 23:41:49  mjk
+# copyright storm on
+#
+# Revision 1.18  2007/06/23 04:03:32  mjk
+# mars hill copyright
+#
+# Revision 1.17  2006/09/11 22:47:55  mjk
+# monkey face copyright
+#
+# Revision 1.16  2006/08/10 00:10:12  mjk
+# 4.2 copyright
+#
+# Revision 1.15  2006/07/23 05:27:51  phil
+# Move to version 6.8.0
+#
+# Revision 1.14  2005/12/07 19:12:58  nadya
+# deal with mpi-related scripts via patch-files
+#
+# Revision 1.13  2005/10/30 02:01:32  nadya
+# add mpi scripts for handling parallel jobs
+#
+# Revision 1.12  2005/10/30 01:47:45  nadya
+# latest release. Not sure if it's stable
+#
+# Revision 1.11  2005/10/12 18:08:57  mjk
+# final copyright for 4.1
+#
+# Revision 1.10  2005/09/16 01:02:32  mjk
+# updated copyright
+#
+# Revision 1.9  2005/06/16 01:14:07  nadya
+# give cat a full name
+#
+# Revision 1.8  2005/05/24 21:22:07  mjk
+# update copyright, release is not any closer
+#
+# Revision 1.7  2005/05/12 02:11:24  nadya
+# revert to making from downloaded binaries, new verison 6.7.6
+# add making *wsdd. files, etc (was not in previous condor version)
+#
+# Revision 1.6  2005/03/28 22:16:05  nadya
+# compilie condor from source
+#
+# Revision 1.5  2005/03/23 20:42:39  nadya
+# clean old entries, reorganize dirs
+#
+# Revision 1.4  2004/07/13 02:57:27  nadya
+# rm SEDSPEC entries
+#
+# Revision 1.3  2004/02/09 23:55:17  nadya
+# fix SEDSPEC
+#
+# Revision 1.2  2004/02/09 23:20:10  nadya
+# add rules
+#
+# Revision 1.1  2003/10/14 20:28:33  nadya
+# initial revision
+#
+#
+
+
+PKGROOT		 = /opt/condor
+SCRIPT		 = ./CondorConf
+
+REDHAT.ROOT = $(PWD)/../../
+ROCKSROOT = ../../../../..
+-include $(ROCKSROOT)/etc/Rules.mk
+include Rules.mk
+
+TESTARCH =	x86_64
+ifeq ($(ARCH),$(TESTARCH))
+X86_64	=	_64
+else
+X86_64	=
+endif
+
+NAME = condor
+EXT  = linux-x86$(X86_64)-rhel5-dynamic
+
+SEDSPEC += \
+	-e 's%@TOP@%$(PWD)%g' \
+	-e 's%@EXT@%$(EXT)%g' \
+	-e 's%@GT3_INSTALL@%$(PKGROOT)/lib/gt3%g' \
+	-e 's%@GT4_INSTALL@%$(PKGROOT)/lib/gt4%g'
+
+TARBALL = $(NAME)-$(VERSION)-$(EXT)
+GT3DIR = $(NAME)-$(VERSION)/lib/gt3/
+GT4DIR = $(NAME)-$(VERSION)/lib/gt4/
+
+version.mk: version.mk.in
+	/bin/cat version.mk.in ../version.mk > version.mk
+
+
+pretar::
+	cp $(TARBALL).tar.gz $(REDHAT.SOURCES)
+
+
+build::
+	tar -zxf $(TARBALL).tar.gz
+	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
+
+
+install::
+	mkdir -p $(ROOT)/$(PKGROOT)
+	mkdir -p $(ROOT)/$(PKGROOT)/bin
+	mkdir -p $(ROOT)/$(PKGROOT)/etc/examples
+	mkdir -p $(ROOT)/$(PKGROOT)/examples
+	mkdir -p $(ROOT)/$(PKGROOT)/include
+	mkdir -p $(ROOT)/$(PKGROOT)/lib
+	mkdir -p $(ROOT)/$(PKGROOT)/libexec
+	mkdir -p $(ROOT)/$(PKGROOT)/man/man1
+	mkdir -p $(ROOT)/$(PKGROOT)/sbin
+	mkdir -p $(ROOT)/$(PKGROOT)/src/chirp
+	mkdir -p $(ROOT)/$(PKGROOT)/src/drmaa
+	install -m644 $(NAME)-$(VERSION)/LICENSE-2.0.txt $(ROOT)/$(PKGROOT)
+	install -m755 $(NAME)-$(VERSION)/bin/* $(ROOT)/$(PKGROOT)/bin
+	install -m644 $(NAME)-$(VERSION)/etc/examples/* $(ROOT)/$(PKGROOT)/etc/examples
+	install -m755 $(SCRIPT) $(ROOT)/$(PKGROOT)/sbin
+	cp -R $(NAME)-$(VERSION)/examples/* $(ROOT)/$(PKGROOT)/examples
+	install -m644 $(NAME)-$(VERSION)/include/* $(ROOT)/$(PKGROOT)/include
+	cp -R $(NAME)-$(VERSION)/lib/* $(ROOT)/$(PKGROOT)/lib
+	cp -R $(NAME)-$(VERSION)/libexec/* $(ROOT)/$(PKGROOT)/libexec
+	install -m644 $(NAME)-$(VERSION)/man/man1/* $(ROOT)/$(PKGROOT)/man/man1
+	install -m755 $(NAME)-$(VERSION)/sbin/* $(ROOT)/$(PKGROOT)/sbin
+	install -m644 $(NAME)-$(VERSION)/src/chirp/* $(ROOT)/$(PKGROOT)/src/chirp
+
+
+clean::
+	rm -rf $(NAME)-$(VERSION)
+	rm -f version.mk
+

@@ -1,0 +1,232 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+
+    <description>
+    Condor Central Manager configuration (with submit capability).
+    </description>
+
+    <copyright>
+    Copyright (c) 2000 - 2008 The Regents of the University of California.
+    All rights reserved. Rocks(r) v5.0 www.rocksclusters.org
+    </copyright>
+
+    <changelog>
+    $Log: condor-server.xml,v $
+    Revision 1.50  2008/03/06 23:41:49  mjk
+    copyright storm on
+
+    Revision 1.49  2007/07/11 21:09:41  phil
+    Add rocks sync condor command.
+    Read config variables from database on each condor sync.
+
+    Revision 1.48  2007/06/28 00:02:20  bruno
+    phil, commence head shaking now.
+
+    Revision 1.47  2007/06/23 04:03:32  mjk
+    mars hill copyright
+
+    Revision 1.46  2007/06/13 23:35:34  phil
+    put correct variable in place for CondorConf
+
+    Revision 1.45  2007/06/13 18:16:08  phil
+    Use rocks command line for user sync and definition of Condor Master
+
+    Revision 1.44  2007/06/11 20:58:24  phil
+    Move condor volatile files (execute/log/spool) to /var/opt/condor
+    condor config localization in /opt/condor
+
+    Revision 1.43  2006/09/11 22:47:54  mjk
+    monkey face copyright
+
+    Revision 1.42  2006/08/10 00:10:11  mjk
+    4.2 copyright
+
+    Revision 1.41  2006/08/07 19:06:26  bruno
+    make sure the condor user account is setup before initializing the condor
+    service
+
+    Revision 1.40  2006/07/31 20:00:13  phil
+    Log entry from previous version has unquoted xml and cause kpp to honk.
+
+
+    Revision 1.38  2006/07/27 21:41:52  phil
+    typo.
+
+    Revision 1.37  2006/07/27 21:17:12  phil
+    Add HOSTALLOW_WRITE directive to CondorConf (needed for Condor 6.8.0)
+    Use condor reserved ID
+
+    Revision 1.36  2006/03/27 06:49:13  phil
+    Tighter way to determine if user condor exists.
+
+    Revision 1.35  2006/03/25 16:22:39  phil
+    Change to using file direction.
+    Add Condor_Master to database
+
+    Revision 1.1  2006/03/13 20:20:23  vrowley
+    initial revisions from rocksclusters.org
+
+    Revision 1.34  2005/10/12 18:08:56  mjk
+    final copyright for 4.1
+
+    Revision 1.33  2005/09/16 01:02:31  mjk
+    updated copyright
+
+    Revision 1.32  2005/06/16 00:29:52  nadya
+    configure central manager to be on public interface.
+
+    Revision 1.31  2005/06/15 18:40:01  nadya
+    update args for new CondorConf
+
+    Revision 1.30  2005/05/24 21:22:05  mjk
+    update copyright, release is not any closer
+
+    Revision 1.29  2005/03/23 20:43:46  nadya
+    remove old entries
+
+    Revision 1.28  2005/03/02 20:39:37  mjk
+    cleanup kickstart tags
+
+    Revision 1.27  2005/02/03 19:57:45  nadya
+    add environment for java universe configuration
+
+    Revision 1.26  2005/02/01 23:55:25  mjk
+    Do not use the roll="name" attribute of the package tags anymore, the
+    make roll step will do this for you.
+
+    Revision 1.25  2004/10/13 23:44:14  nadya
+    put ln in right place
+
+    Revision 1.24  2004/10/13 06:23:41  nadya
+    need condor_config file in standard location, otherwise
+    condor job submitted via globus-job-run can't find it
+
+    Revision 1.23  2004/10/04 23:30:50  nadya
+    fix typo
+    rm obsolete code
+
+    Revision 1.22  2004/07/13 03:27:18  nadya
+    enable use of new config script
+    
+    Revision 1.21  2004/06/19 01:36:32  nadya
+    clean from prior installs
+    
+    Revision 1.20  2004/05/20 22:18:38  nadya
+    put dns option in first configure command
+    
+    Revision 1.19  2004/05/20 19:07:38  nadya
+    add an option to condor_configure to use a different dns server on frontend
+    
+    Revision 1.18  2004/02/24 01:48:39  nadya
+    rm exec capability from the server
+    
+    Revision 1.17  2004/02/09 20:18:29  nadya
+    enable exec capability
+    
+    Revision 1.16  2004/01/30 04:32:34  mjk
+    coloring
+    
+    Revision 1.15  2003/11/14 22:08:01  nadya
+    chmod ~condor
+    
+    Revision 1.14  2003/11/14 01:15:01  nadya
+    move tests to ~condor
+    
+    Revision 1.13  2003/11/14 00:27:07  nadya
+    use /home/condor in configure script
+    
+    Revision 1.12  2003/11/13 08:11:00  nadya
+    change pre- back to post-
+    
+    Revision 1.11  2003/11/13 06:19:16  nadya
+    change scripts from post- to pre-
+    
+    Revision 1.10  2003/11/13 03:04:18  nadya
+    move condor configuration and anything related to post-90-condor*
+    
+    Revision 1.9  2003/11/13 00:31:35  nadya
+    post section: add making state dir for condor
+    update var name
+    comment out checkpoint server additions (have vanilla distro)
+    
+    Revision 1.8  2003/11/06 21:42:25  nadya
+    update path to condor_configure
+    
+    Revision 1.7  2003/11/05 23:53:24  nadya
+    add entries for the checkpoint server
+    rm "--central-manager" option from configuration
+    
+    Revision 1.6  2003/11/04 19:42:12  nadya
+    Move appending to MANPATH to condor.xml from the other nodes
+    
+    Revision 1.5  2003/10/16 17:09:46  nadya
+    update path to condor_configure. why is it no in sbin ?!
+    
+    Revision 1.4  2003/10/16 05:06:30  nadya
+    add symlink to post section
+    
+    Revision 1.3  2003/10/16 00:07:50  nadya
+    add install-dir and local-dir options to condor_configure
+    
+    Revision 1.2  2003/10/15 23:52:55  nadya
+    put proper xml comments
+    
+    Revision 1.1  2003/10/14 20:22:54  nadya
+    initial revision
+    
+    </changelog>
+
+    <package>condor</package>
+    <package>rocks-condor-test</package>
+    <package>rocks-condor-command</package>
+
+<post>
+
+### Create the Condor User
+/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
+
+###  Put the CondorMaster into the database
+CMaster=<var name="Kickstart_PublicHostname"/>
+/opt/rocks/bin/rocks add var service=Condor component=Master value=$CMaster
+/opt/rocks/bin/rocks add var service=Condor component=MasterNetwork value=public
+/opt/rocks/bin/rocks add var service=Condor component=ClientNetwork value=private
+
+<file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
+#!/bin/sh
+
+LOCAL_DIR=/var/opt/condor
+rm -rf $LOCAL_DIR
+mkdir -p $LOCAL_DIR
+
+chown -R condor.condor $LOCAL_DIR
+chmod a+rx  $LOCAL_DIR
+
+/opt/rocks/bin/rocks sync users
+
+if [ -f /etc/profile.d/java.sh ]; then
+   . /etc/profile.d/java.sh
+fi
+
+. /etc/profile.d/rocks-condor.sh
+cd $CONDOR_ROOT
+#configure central manager (with submit capabilities) 
+CMaster=`/opt/rocks/bin/rocks list var service=Condor component=Master | /bin/sed -e 1d -e 's/Condor.*Master[[:space:]]*//'`
+
+MasterNetwork=`/opt/rocks/bin/rocks list var service=Condor component=MasterNetwork | /bin/sed -e 1d -e 's/Condor.*MasterNetwork[[:space:]]*//'`
+
+
+$CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=<var name="Kickstart_PrivateDNSDomain"/>
+
+if [ "x$MasterNetwork" != "x" ]; then
+	CNetwork=`/opt/rocks/bin/rocks list host interface <var name="Node_Hostname"/> | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
+	sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
+	echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
+fi
+</file>
+
+</post>
+
+</kickstart> 
+

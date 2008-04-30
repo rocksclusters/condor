@@ -1,0 +1,24 @@
+<preface id="preface" xreflabel="preface">
+<title>Preface</title>
+
+
+<para>
+
+The Rocks Condor Roll uses the latest stable Condor Release
+to provide High Throughput Computing environment for Rocks clusters.  
+The Rocks Condor Roll builds on the very good work by the Condor team, 
+to seamlessly install the <emphasis>de facto</emphasis> standard grid 
+middleware on Rocks Clusters.
+
+</para>
+
+
+<para>
+
+Please visit the <ulink url="http://www.cs.wisc.edu/condor/">Condor
+Project Homepage</ulink> to learn more about Condor and the 
+software releases.
+
+</para>
+
+</preface>
