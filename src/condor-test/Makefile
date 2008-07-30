@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.21 2008/04/30 14:24:41 phil Exp $
+# $Id: Makefile,v 1.22 2008/07/30 23:07:06 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.22  2008/07/30 23:07:06  bruno
+# very simple test case
+#
 # Revision 1.21  2008/04/30 14:24:41  phil
 # Bootstrap correctly so that examples will build
 #
@@ -129,24 +132,8 @@ ROCKSROOT = ../../../../..
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-SEDSPEC += \
-	-e 's%@HMM@%$(HMM)%g' \
-	-e 's%@TUT@%$(TUT)%g' 
 
-version.mk: version.mk.in
-	/bin/cat version.mk.in ../version.mk > version.mk
+build:
+	mkdir -p $(ROOT)/$(PKGROOT)/tests
+	cp hello.* $(ROOT)/$(PKGROOT)/tests
 
-build: 
-	gunzip -c $(HMM).tar.gz | tar -x
-	( . /etc/profile.d/rocks-condor.sh; cd $(HMM); ./configure --prefix=$(PKGROOT) $(ARCHARGS); make; )
-	gunzip -c $(TUT).tar.gz | tar -x
-	( . /etc/profile.d/rocks-condor.sh; cd $(TUT); ./configure --prefix=$(PKGROOT) --with-mpi=/usr/bin $(ARCHARGS); make; )
-
-install::
-	mkdir -p $(ROOT)/$(PKGROOT)
-	( cd $(HMM); make prefix=$(ROOT)/$(PKGROOT) install; )
-	( cd $(TUT); make prefix=$(ROOT)/$(PKGROOT) install; )
-
-clean::
-	rm -rf $(HMM) $(TUT) $(NAME)-$(VERSION)
-	rm -f version.mk
