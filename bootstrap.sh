@@ -2,7 +2,7 @@
 #
 # This file should remain OS independent
 #
-# $Id: bootstrap.sh,v 1.7 2008/04/30 14:24:40 phil Exp $
+# $Id: bootstrap.sh,v 1.8 2008/10/15 20:13:03 mjk Exp $
 #
 # @Copyright@
 # 
@@ -58,6 +58,10 @@
 # @Copyright@
 #
 # $Log: bootstrap.sh,v $
+# Revision 1.8  2008/10/15 20:13:03  mjk
+# - more changes to build outside of the tree
+# - removed some old fds-only targets
+#
 # Revision 1.7  2008/04/30 14:24:40  phil
 # Bootstrap correctly so that examples will build
 #
@@ -95,7 +99,7 @@
 # add bootstrapping
 #
 
-. ../etc/bootstrap-functions.sh
+. $ROLLSROOT/etc/bootstrap-functions.sh
 
 compile_and_install condor
 compile rocks
