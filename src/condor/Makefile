@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.22 2008/10/18 00:56:06 mjk Exp $
+# $Id: Makefile,v 1.23 2008/12/10 21:36:04 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,11 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.23  2008/12/10 21:36:04  bruno
+# - condor roll is now buildable outside rocks source tree
+#
+# - updated bits to v7.0.5
+#
 # Revision 1.22  2008/10/18 00:56:06  mjk
 # copyright 5.1
 #
@@ -125,11 +130,10 @@
 #
 
 
-PKGROOT		 = /opt/condor
-SCRIPT		 = ./CondorConf
+PKGROOT		= /opt/condor
+SCRIPT		= ./CondorConf
+REDHAT.ROOT	= $(PWD)/../../
 
-REDHAT.ROOT = $(PWD)/../../
-ROCKSROOT = ../../../../..
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 

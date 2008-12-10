@@ -1,5 +1,5 @@
 # --------------------------------------------------- -*- Makefile -*- --
-# $Id: Makefile,v 1.11 2008/10/18 00:56:07 mjk Exp $
+# $Id: Makefile,v 1.12 2008/12/10 21:37:40 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,11 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.12  2008/12/10 21:37:40  bruno
+# - condor roll is now buildable outside rocks source tree
+#
+# - updated bits to v7.0.5
+#
 # Revision 1.11  2008/10/18 00:56:07  mjk
 # copyright 5.1
 #
@@ -77,10 +82,9 @@
 PROFILES = rocks-condor.sh rocks-condor.csh
 INITFILES = rocks-condor
 
-PKGROOT	= /opt/condor
+PKGROOT		= /opt/condor
+REDHAT.ROOT	= $(PWD)/../../
 
-REDHAT.ROOT = $(PWD)/../../
-ROCKSROOT = ../../../../..
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 -include $(ROCKSROOT)/etc/python.mk

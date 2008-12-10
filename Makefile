@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.10 2008/10/18 00:56:06 mjk Exp $
+# $Id: Makefile,v 1.11 2008/12/10 21:36:03 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,11 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.11  2008/12/10 21:36:03  bruno
+# - condor roll is now buildable outside rocks source tree
+#
+# - updated bits to v7.0.5
+#
 # Revision 1.10  2008/10/18 00:56:06  mjk
 # copyright 5.1
 #
@@ -89,8 +94,8 @@
 
 MAKE.compat = 1
 
-ROLLSROOT = ..
 -include $(ROLLSROOT)/etc/Rolls.mk
 include Rolls.mk
 
 default: roll
+
