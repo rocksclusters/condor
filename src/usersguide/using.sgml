@@ -129,10 +129,20 @@ condor   17010 17007  0 Apr19 ?        00:09:09 condor_startd -f
 <listitem>
 <para>
 Try a test job submission.
+If you don't already have a non-root user account, you'll need to create one:
 </para>
 
 <screen>
-# su - condor 
+# useradd testuser
+# rocks sync users
+</screen>
+
+<para>
+Then, to run a test job submission, execute:
+</para>
+
+<screen>
+# su - testuser 
 $ cp /opt/condor/tests/hello.* .
 $ condor_submit hello.sub
 </screen>
@@ -152,9 +162,9 @@ The output should be similar to:
 </para>
 
 <screen>
--- Submitter: viz-build.rocksclusters.org : <137.110.119.116:55854> : viz-build.rocksclusters.org
+-- Submitter: jeebs.rocksclusters.org : <172.19.119.241:44626> : jeebs.rocksclusters.org
  ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD               
-   7.0   condor          7/30 16:43   0+00:00:02 R  0   0.0  hello.sh          
+   2.0   testuser       12/12 09:38   0+00:00:01 R  0   0.0  hello.sh          
 
 1 jobs; 0 idle, 1 running, 0 held
 </screen>
