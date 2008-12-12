@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.20 2008/12/10 21:37:40 bruno Exp $
+# $Id: Makefile,v 1.21 2008/12/12 18:12:48 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,99 +55,24 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
-# Revision 1.20  2008/12/10 21:37:40  bruno
-# - condor roll is now buildable outside rocks source tree
+# Revision 1.21  2008/12/12 18:12:48  bruno
+# make condor docs look like other rolls' docs
 #
-# - updated bits to v7.0.5
-#
-# Revision 1.19  2008/10/18 00:56:07  mjk
-# copyright 5.1
-#
-# Revision 1.18  2008/03/06 23:41:50  mjk
-# copyright storm on
-#
-# Revision 1.17  2007/06/23 04:03:32  mjk
-# mars hill copyright
-#
-# Revision 1.16  2006/09/11 22:47:56  mjk
-# monkey face copyright
-#
-# Revision 1.15  2006/08/10 00:10:13  mjk
-# 4.2 copyright
-#
-# Revision 1.14  2005/10/18 20:20:31  bruno
-# automatically set the copyright date
-#
-# Revision 1.13  2005/10/12 18:08:59  mjk
-# final copyright for 4.1
-#
-# Revision 1.12  2005/09/16 01:02:35  mjk
-# updated copyright
-#
-# Revision 1.11  2005/06/16 01:20:11  nadya
-# rename version.mk.in
-#
-# Revision 1.10  2005/05/24 21:22:09  mjk
-# update copyright, release is not any closer
-#
-# Revision 1.9  2005/04/05 20:36:19  nadya
-# move logic of creating rocks.dsl, rocks.css and stylesheet-images to Rules.mk
-# Add target predoc in order to make docs in a local directory
-#
-# Revision 1.8  2005/03/23 20:43:09  nadya
-# clean old entries, reorganize dirs
-#
-# Revision 1.7  2004/10/21 01:32:24  mjk
-# *** empty log message ***
-#
-# Revision 1.6  2004/10/21 01:27:40  mjk
-# fix version
-#
-# Revision 1.5  2004/02/11 23:53:19  nadya
-# add png files
-#
-# Revision 1.4  2004/02/09 23:45:37  nadya
-# add clean targets, fix typo in SEDSPEC
-#
-# Revision 1.3  2004/02/09 23:27:17  nadya
-# add rules
-#
-# Revision 1.2  2004/02/03 00:43:40  nadya
-# add ccss file to the distro
-# change dsl filename to rocks
-#
-# Revision 1.1  2003/10/14 20:28:33  nadya
-# initial revision
 #
 #
 
-PKGROOT		= /var/www/html/roll-documentation/condor/$(VERSION)
-REDHAT.ROOT	= $(PWD)/../../
+PKGROOT         = /var/www/html/roll-documentation/condor/$(VERSION)
+REDHAT.ROOT     = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-version.mk: version.mk.in
-	/bin/cat version.mk.in ../version.mk > version.mk
-
-SEDSPEC += \
-	-e 's%@ROCKS_VERSION_NAME@%$(ROCKS_VERSION_NAME)%g' \
-	-e 's%@ROCKS_VERSION@%$(ROCKS_VERSION)%g' \
-	-e 's%@PUBDATE@%$(PUBDATE)%g' \
-	-e 's%@YEAR@%$(YEAR)%g'
-
 default: $(NAME).spec ../$(NAME)-$(VERSION).tar.gz
 
-index.sgml: index.sgml.in
-	$(SED) $(SEDSPEC) $^ > $@
+html: predoc
+	jw --backend html --dsl $(PWD)/rocks.dsl#html index.sgml 
 
-requirements.sgml: requirements.sgml.in
-	$(SED) $(SEDSPEC) $^ > $@
-
-html: predoc index.sgml requirements.sgml
-	jw --backend html --dsl $(PWD)/rocks.dsl#html index.sgml
-
-pdf: predoc index.sgml requirements.sgml
+pdf: predoc
 	jw --backend pdf --dsl $(PWD)/rocks.dsl#print index.sgml
 
 build: html pdf
@@ -164,6 +89,5 @@ install:: build
 
 clean::
 	rm -f *.html
-	rm -f version.mk
-	rm -f index.pdf index.sgml requirements.sgml
+	rm -f index.pdf
 
