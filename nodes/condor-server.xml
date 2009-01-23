@@ -14,6 +14,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.52  2009/01/23 21:12:20  bruno
+    convert var tags to entities
+
     Revision 1.51  2008/10/18 00:56:06  mjk
     copyright 5.1
 
@@ -191,7 +194,7 @@
 /usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
 
 ###  Put the CondorMaster into the database
-CMaster=<var name="Kickstart_PublicHostname"/>
+CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add var service=Condor component=Master value=$CMaster
 /opt/rocks/bin/rocks add var service=Condor component=MasterNetwork value=public
 /opt/rocks/bin/rocks add var service=Condor component=ClientNetwork value=private
@@ -220,10 +223,10 @@ CMaster=`/opt/rocks/bin/rocks list var service=Condor component=Master | /bin/se
 MasterNetwork=`/opt/rocks/bin/rocks list var service=Condor component=MasterNetwork | /bin/sed -e 1d -e 's/Condor.*MasterNetwork[[:space:]]*//'`
 
 
-$CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=<var name="Kickstart_PrivateDNSDomain"/>
+$CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=&Kickstart_PrivateDNSDomain;
 
 if [ "x$MasterNetwork" != "x" ]; then
-	CNetwork=`/opt/rocks/bin/rocks list host interface <var name="Node_Hostname"/> | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
+	CNetwork=`/opt/rocks/bin/rocks list host interface &Node_Hostname; | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
 	sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
 	echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
 fi

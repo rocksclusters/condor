@@ -14,6 +14,9 @@
 
 	<changelog>
 	$Log: condor-checkpoint.xml,v $
+	Revision 1.19  2009/01/23 21:12:20  bruno
+	convert var tags to entities
+	
 	Revision 1.18  2008/10/18 00:56:06  mjk
 	copyright 5.1
 	
@@ -87,7 +90,7 @@ $CONDOR_ROOT/sbin/condor_configure --owner=condor \
                                   --install-dir=$CONDOR_ROOT \
                                   --local-dir=/state/partition1/condor \
                                   --type=checkpoint \
-                                  --central-manager=<var name="Kickstart_PrivateHostname"/>.<var name="Kickstart_PrivateDNSDomain"/>
+                                  --central-manager=&Kickstart_PrivateHostname;.&Kickstart_PrivateDNSDomain;
 
 </post>
 
