@@ -14,6 +14,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.53  2009/03/13 20:45:40  bruno
+    Node_Hostname is now hostname
+
     Revision 1.52  2009/01/23 21:12:20  bruno
     convert var tags to entities
 
@@ -226,7 +229,7 @@ MasterNetwork=`/opt/rocks/bin/rocks list var service=Condor component=MasterNetw
 $CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=&Kickstart_PrivateDNSDomain;
 
 if [ "x$MasterNetwork" != "x" ]; then
-	CNetwork=`/opt/rocks/bin/rocks list host interface &Node_Hostname; | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
+	CNetwork=`/opt/rocks/bin/rocks list host interface &hostname; | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
 	sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
 	echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
 fi
