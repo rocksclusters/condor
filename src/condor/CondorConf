@@ -56,6 +56,9 @@
 # @Copyright@
 #
 # $Log: CondorConf,v $
+# Revision 1.27  2009/12/08 00:42:43  phil
+# New version of Condor
+#
 # Revision 1.26  2009/05/01 19:07:14  mjk
 # chimi con queso
 #
@@ -549,6 +552,7 @@ class Conf(rocks.app.Application):
 		else:
 			dict['HOSTALLOW_WRITE'] = '%s, *.%s, *.%s' % (self.cm_fqdn,self.localDomain,dict['UID_DOMAIN'])
 
+		dict['ALLOW_WRITE'] = dict['HOSTALLOW_WRITE'] 
 		self.localDir = dict['LOCAL_DIR']
 		if self.node == 'frontend':
 			dict['COLLECTOR_NAME'] = 'Collector at %s' % self.host
