@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.56  2009/12/08 20:34:05  phil
+    Updates for Rocks 5.2/5.3 and new version of Condor
+
     Revision 1.55  2009/12/08 02:06:21  phil
     update for latest version of Condor
 
@@ -208,6 +211,7 @@ CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_Master value=$CMaster
 /opt/rocks/bin/rocks add attr Condor_MasterNetwork value=public
 /opt/rocks/bin/rocks add attr Condor_ClientNetwork value=private
+/opt/rocks/bin/rocks add appliance attr compute Condor_Client value=true
 
 <file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
 #!/bin/sh

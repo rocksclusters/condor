@@ -17,6 +17,9 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.20  2009/12/08 20:34:05  phil
+	Updates for Rocks 5.2/5.3 and new version of Condor
+	
 	Revision 1.19  2009/05/01 19:07:13  mjk
 	chimi con queso
 	
@@ -99,9 +102,9 @@
 		<tail>condor-server</tail>
 	</order>
 
-	<edge from="hpc-client" to="condor-client" arch="i386,x86_64"/>
-	<edge from="hpc-server" to="condor-server" arch="i386,x86_64"/>
-	<edge from="hpc-base"   to="condor"        arch="i386,x86_64"/>
+	<edge from="client" to="condor-client" arch="i386,x86_64" cond="Condor_Client"/>
+	<edge from="server" to="condor-server" arch="i386,x86_64"/>
+	<edge from="base"   to="condor"        arch="i386,x86_64"/>
 
 	<edge from="globus-server">
 		<to>condor-globus</to>
