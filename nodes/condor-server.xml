@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.55  2009/12/08 02:06:21  phil
+    update for latest version of Condor
+
     Revision 1.54  2009/05/01 19:07:13  mjk
     chimi con queso
 
@@ -202,9 +205,9 @@
 
 ###  Put the CondorMaster into the database
 CMaster=&Kickstart_PublicHostname;
-/opt/rocks/bin/rocks add var service=Condor component=Master value=$CMaster
-/opt/rocks/bin/rocks add var service=Condor component=MasterNetwork value=public
-/opt/rocks/bin/rocks add var service=Condor component=ClientNetwork value=private
+/opt/rocks/bin/rocks add attr Condor_Master value=$CMaster
+/opt/rocks/bin/rocks add attr Condor_MasterNetwork value=public
+/opt/rocks/bin/rocks add attr Condor_ClientNetwork value=private
 
 <file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
 #!/bin/sh
@@ -225,17 +228,19 @@ fi
 . /etc/profile.d/rocks-condor.sh
 cd $CONDOR_ROOT
 #configure central manager (with submit capabilities) 
-CMaster=`/opt/rocks/bin/rocks list var service=Condor component=Master | /bin/sed -e 1d -e 's/Condor.*Master[[:space:]]*//'`
+CMaster=`/opt/rocks/bin/rocks report host attr &hostname; attr=Condor_Master` 
 
-MasterNetwork=`/opt/rocks/bin/rocks list var service=Condor component=MasterNetwork | /bin/sed -e 1d -e 's/Condor.*MasterNetwork[[:space:]]*//'`
-
+MasterNetwork=`/opt/rocks/bin/rocks report host attr &hostname; attr=Condor_MasterNetwork`
 
 $CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=&Kickstart_PrivateDNSDomain;
 
+### Bind the MasterNetwork to listen on a specific Address 
 if [ "x$MasterNetwork" != "x" ]; then
-	CNetwork=`/opt/rocks/bin/rocks list host interface &hostname; | /bin/grep $MasterNetwork | /bin/awk '{ printf "%s",$4 }'`
-	sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
-	echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
+	CNetwork=`/opt/rocks/bin/rocks report host condor interface &hostname; $MasterNetwork`
+	if [ "x$CNetwork" != "x" ]; then
+		sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
+		echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
+	fi
 fi
 </file>
 
