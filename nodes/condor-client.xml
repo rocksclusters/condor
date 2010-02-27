@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-client.xml,v $
+    Revision 1.44  2010/02/27 01:39:39  phil
+    Nearly done with removal of CondorConf
+
     Revision 1.43  2009/12/08 02:06:21  phil
     update for latest version of Condor
 
@@ -147,48 +150,26 @@
 
 <post>
 
-<file name="/etc/rc.d/rocksconfig.d/post-90-condor-client" perms="0755"> 
-#!/bin/sh
-
-LOCAL_DIR=/var/opt/condor
-rm -fr  $LOCAL_DIR
-mkdir -p  $LOCAL_DIR
-
-chown -R condor.condor $LOCAL_DIR
-
-if [ -f /etc/profile.d/java.sh ]; then
-   . /etc/profile.d/java.sh
-fi
-. /etc/profile.d/rocks-condor.sh
-cd $CONDOR_ROOT
-$CONDOR_ROOT/sbin/CondorConf -n compute -t se -m &Condor_Master; --localdomain=&Kickstart_PrivateDNSDomain;
+<!-- Generate the node's local condor config file --> 
+<eval mode="xml">
+/opt/rocks/bin/rocks report host condor config &hostname;
+</eval>
 
 <!-- With large memory footprints, java doesn't start. See
 http://www.cs.wisc.edu/condor/manual/v6.8/3_14Java_Support.html#sec:java-install
 for workaround used here -->
-cat &gt;&gt; /opt/condor/etc/condor_config.local  &lt;&lt; 'CONFEOF'
+
+<file name="/opt/condor/etc/condor_config.local" mode="append">
 # First set JAVA_MAXHEAP_ARGUMENT to null, to disable the default of max RAM
 JAVA_MAXHEAP_ARGUMENT =
-# Now set the argument with the Sun-specific maximum allowable value
-CONFEOF
+</file>
 
+# Now calculate the JAVA_EXTRA_ARGUMENTS
 export localmem=`/usr/bin/free -m | awk '/^Mem:/{print $2}'`
 if [ $localmem -gt 1906 ] ; then
 	localmem=1906
 fi
 echo "JAVA_EXTRA_ARGUMENTS = -Xmx${localmem}m" &gt;&gt; /opt/condor/etc/condor_config.local
-
-<!-- adjust the NETWORK INTERFACE to the Logical Network Set by Condor_ClientNetwork -->
-condorNet=''
-if [ "x&Condor_ClientNetwork;" != "x" ]; then
-	condorNet=<eval>/opt/rocks/bin/rocks report host condor interface &hostname; &Condor_ClientNetwork;</eval>
-fi
-
-if [ "x$condorNet" != "x" ]; then
-	/bin/sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local 
-	echo "NETWORK_INTERFACE = $condorNet" &gt;&gt; /opt/condor/etc/condor_config.local
-fi
-</file>
 
 </post>
 

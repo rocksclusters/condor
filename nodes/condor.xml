@@ -15,6 +15,9 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.20  2010/02/27 01:39:39  phil
+	Nearly done with removal of CondorConf
+	
 	Revision 1.19  2009/05/01 19:07:13  mjk
 	chimi con queso
 	
@@ -99,6 +102,19 @@ condor_collector   9618/tcp     # Condor daemon
 </file>
 
 /sbin/chkconfig --add rocks-condor
+
+<file name="/opt/condor/etc/condor_config" vars="expanded">
+`/bin/cat /opt/condor/etc/examples/condor_config.generic | \
+sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@LOCAL_CONFIG_FILE = /opt/condor/etc/condor_config.local@'`
+</file>
+
+/bin/mkdir -p /var/opt/condor
+/bin/mkdir -p /var/opt/condor/execute
+/bin/mkdir -p /var/opt/condor/log
+/bin/mkdir -p /var/opt/condor/spool
+/bin/mkdir -p /var/opt/condor/cred_dir
+
+chown -R 407.407 /var/opt/condor
 </post>
 
 </kickstart> 

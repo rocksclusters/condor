@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.57  2010/02/27 01:39:39  phil
+    Nearly done with removal of CondorConf
+
     Revision 1.56  2009/12/08 20:34:05  phil
     Updates for Rocks 5.2/5.3 and new version of Condor
 
@@ -209,9 +212,15 @@
 ###  Put the CondorMaster into the database
 CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_Master value=$CMaster
-/opt/rocks/bin/rocks add attr Condor_MasterNetwork value=public
-/opt/rocks/bin/rocks add attr Condor_ClientNetwork value=private
+/opt/rocks/bin/rocks add attr Condor_Network value=private
+/opt/rocks/bin/rocks add attr Condor_Daemons value="MASTER, STARTD"
+
+# turn on Condor Client for compute nodes
 /opt/rocks/bin/rocks add appliance attr compute Condor_Client value=true
+# modify set of daemons running on master 
+/opt/rocks/bin/rocks add appliance attr frontend Condor_Daemons value="MASTER, SCHEDD, COLLECTOR, NEGOTIATOR"
+# bind the network to the public interface 
+/opt/rocks/bin/rocks add appliance attr Condor_Network value=public
 
 <file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
 #!/bin/sh
@@ -230,22 +239,7 @@ if [ -f /etc/profile.d/java.sh ]; then
 fi
 
 . /etc/profile.d/rocks-condor.sh
-cd $CONDOR_ROOT
-#configure central manager (with submit capabilities) 
-CMaster=`/opt/rocks/bin/rocks report host attr &hostname; attr=Condor_Master` 
-
-MasterNetwork=`/opt/rocks/bin/rocks report host attr &hostname; attr=Condor_MasterNetwork`
-
-$CONDOR_ROOT/sbin/CondorConf -n frontend -t sm -m $CMaster --localdomain=&Kickstart_PrivateDNSDomain;
-
-### Bind the MasterNetwork to listen on a specific Address 
-if [ "x$MasterNetwork" != "x" ]; then
-	CNetwork=`/opt/rocks/bin/rocks report host condor interface &hostname; $MasterNetwork`
-	if [ "x$CNetwork" != "x" ]; then
-		sed -i '/NETWORK_INTERFACE/d' /opt/condor/etc/condor_config.local
-		echo "NETWORK_INTERFACE = $CNetwork" &gt;&gt; /opt/condor/etc/condor_config.local
-	fi
-fi
+/opt/rocks/bin/rocks report host condor config &hostname; | /opt/rocks/bin/rocks report script | /bin/sh
 </file>
 
 </post>

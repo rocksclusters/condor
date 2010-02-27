@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.1 2010/02/26 06:36:14 phil Exp $
+#$Id: __init__.py,v 1.2 2010/02/27 01:39:39 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.2  2010/02/27 01:39:39  phil
+# Nearly done with removal of CondorConf
+#
 # Revision 1.1  2010/02/26 06:36:14  phil
 # Work in progress to replace CondorConf
 #
@@ -124,8 +127,6 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['HOSTALLOW_WRITE']     = None 
 		self.dict['JAVA']                = None
 		self.dict['KILL']                = 'False'
-		self.dict['LOCAL_CONFIG_FILE']   = None 
-		self.dict['LOCAL_DIR']           = '/var/opt/condor'
 		self.dict['LOCK']                = '/tmp/condor-lock.$(HOSTNAME)'
 		self.dict['MAIL']                = None
 		self.dict['MPI_CONDOR_RSH_PATH'] = '$(LIBEXEC)'
@@ -282,7 +283,6 @@ class Command(rocks.commands.HostArgumentProcessor,
                 for host in self.getHostnames(args):
 			self.host = host
 			self.Config()
-
-		self.writeConfigFile(self.dict, self.configLocal)
+			self.writeConfigFile(self.dict, self.configLocal)
 
 		self.endOutput()
