@@ -1,5 +1,5 @@
 # --------------------------------------------------- -*- Makefile -*- --
-# $Id: Makefile,v 1.13 2009/05/01 19:07:14 mjk Exp $
+# $Id: Makefile,v 1.14 2010/03/03 17:24:39 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,10 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.14  2010/03/03 17:24:39  phil
+# 1st stab at automatic integration of condor node running in EC2 to local
+# collector.
+#
 # Revision 1.13  2009/05/01 19:07:14  mjk
 # chimi con queso
 #
@@ -83,7 +87,7 @@
 #
 
 PROFILES = rocks-condor.sh rocks-condor.csh
-INITFILES = rocks-condor
+INITFILES = rocks-condor ec2-condor-collector
 
 PKGROOT		= /opt/condor
 REDHAT.ROOT	= $(PWD)/../../

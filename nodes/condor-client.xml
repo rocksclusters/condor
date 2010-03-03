@@ -15,6 +15,10 @@
 
     <changelog>
     $Log: condor-client.xml,v $
+    Revision 1.45  2010/03/03 17:24:39  phil
+    1st stab at automatic integration of condor node running in EC2 to local
+    collector.
+
     Revision 1.44  2010/02/27 01:39:39  phil
     Nearly done with removal of CondorConf
 
@@ -170,7 +174,10 @@ if [ $localmem -gt 1906 ] ; then
 	localmem=1906
 fi
 echo "JAVA_EXTRA_ARGUMENTS = -Xmx${localmem}m" &gt;&gt; /opt/condor/etc/condor_config.local
+</post>
 
+<post cond="ec2_enable">
+chkconfig --add ec2-condor-collector
 </post>
 
 </kickstart> 

@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.2 2010/02/27 01:39:39 phil Exp $
+#$Id: __init__.py,v 1.3 2010/03/03 17:24:39 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,10 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.3  2010/03/03 17:24:39  phil
+# 1st stab at automatic integration of condor node running in EC2 to local
+# collector.
+#
 # Revision 1.2  2010/02/27 01:39:39  phil
 # Nearly done with removal of CondorConf
 #
@@ -111,8 +115,9 @@ class Command(rocks.commands.HostArgumentProcessor,
 		### These are the Condor Parameters that we will 
                 ### Define. When Adding new ones, Add them here.
 		self.dict = {}
-		self.dict['ALLOW_WRITE']         = None 
+		self.dict['ALLOW_WRITE']         = '$(HOSTALLOW_WRITE)' 
 		self.dict['COLLECTOR_NAME']      = None
+		self.dict['COLLECTOR_SOCKET_CACHE_SIZE']      = 1000 
 		self.dict['CONDOR_ADMIN']        = None
 		self.dict['CONDOR_DEVELOPERS']   = 'NONE'
 		self.dict['CONDOR_DEVELOPERS_COLLECTOR'] = 'NONE'
@@ -124,10 +129,12 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['DAEMON_LIST']         = None
 		self.dict['EMAIL_DOMAIN']        = '$(FULL_HOSTNAME)'
 		self.dict['FILESYSTEM_DOMAIN']   = None 
+		self.dict['HIGHPORT']            = 40050 
 		self.dict['HOSTALLOW_WRITE']     = None 
 		self.dict['JAVA']                = None
 		self.dict['KILL']                = 'False'
 		self.dict['LOCK']                = '/tmp/condor-lock.$(HOSTNAME)'
+		self.dict['LOWPORT']             = 40000 
 		self.dict['MAIL']                = None
 		self.dict['MPI_CONDOR_RSH_PATH'] = '$(LIBEXEC)'
 		self.dict['NEGOTIATOR_INTERVAL'] = '120'
@@ -139,24 +146,30 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['STARTD_EXPRS']        = '$(STARTD_EXPRS), DedicatedScheduler'
 		self.dict['SUSPEND']             = 'False'
 		self.dict['UID_DOMAIN']          =  None
+		self.dict['UPDATE_COLLECTOR_WITH_TCP']  = 'True'
 		self.dict['WANT_SUSPEND']        = 'False'
 		self.dict['WANT_VACATE']         = 'False'
 
 	def fillFromRocksAttributes(self):
+		self.dict['COLLECTOR_NAME'] = "Collector at %s" % \
+			(self.db.getHostAttr('localhost', 'Condor_Master'))
+
+		self.dict['DAEMON_LIST'] = \
+			self.db.getHostAttr(self.host,'Condor_Daemons')
+
+		self.dict['FILESYSTEM_DOMAIN'] = \
+			self.db.getHostAttr('localhost','Kickstart_PublicDNSDomain')
+
+		self.dict['LOWPORT'] = \
+			self.db.getHostAttr(self.host,'Condor_PortLow')
+
+		self.dict['HIGHPORT'] = \
+			self.db.getHostAttr(self.host,'Condor_PortHigh')
+
 		if self.dict['UID_DOMAIN'] is None:
 			self.dict['UID_DOMAIN'] =  \
 				self.db.getHostAttr('localhost', \
                                 'Kickstart_PrivateDNSDomain')
-		self.dict['COLLECTOR_NAME'] = "Collector at %s" % \
-			(self.db.getHostAttr('localhost', 'Condor_Master'))
-
-		self.dict['ALLOW_WRITE'] = '%s, *.%s' % ( \
-			self.cm_fqdn, \
-			self.db.getHostAttr('localhost', 'Kickstart_PrivateDNSDomain'))
-		self.dict['HOSTALLOW_WRITE'] = self.dict['ALLOW_WRITE'] 
-
-		self.dict['FILESYSTEM_DOMAIN'] = \
-			self.db.getHostAttr('localhost','Kickstart_PublicDNSDomain')
 
 	def fillFromDerived(self):
 		## Get the Condor User ID, Group ID
@@ -250,15 +263,19 @@ class Command(rocks.commands.HostArgumentProcessor,
 		condorIface = self.command('report.host.condor.interface',
 			['%s' % self.host, 
 				'%s' % self.db.getHostAttr(self.host, 'Condor_Network')])
-		self.dict['NETWORK_INTERFACE']           = condorIface
+		self.dict['NETWORK_INTERFACE']           = condorIface.rstrip()
  
 		self.dict['CONDOR_ADMIN']                = 'condor@%s' % self.cm_fqdn
 		self.dict['CONDOR_HOST']                 = self.cm_fqdn
 		self.dict['HOSTALLOW_WRITE'] = '%s, *.%s, *.%s' % (self.cm_fqdn,self.localDomain,self.dict['UID_DOMAIN'])
+		allowHosts=self.db.getHostAttr(self.host, 'Condor_HostAllow')
+		allowHosts.lstrip()
+		if len(allowHosts) > 1:
+			if allowHosts.find('+') == 0:
+				self.dict['HOSTALLOW_WRITE'] += "," + allowHosts.lstrip('+')
+			else:
+				self.dict['HOSTALLOW_WRITE'] = allowHosts
 
-		self.dict['ALLOW_WRITE'] = self.dict['HOSTALLOW_WRITE'] 
-		self.dict['DAEMON_LIST'] = \
-			self.db.getHostAttr(self.host,'Condor_Daemons')
 	
 		self.localDir = self.dict['LOCAL_DIR']
 		# if self.node == 'frontend':
@@ -276,12 +293,12 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.initializeDictionary()
 		self.type, self.UIDdomain, self.ConfigFile = self.fillParams([('type','Worker'),('UIDdomain',),('ConfigFile','/opt/condor/etc/condor_config.local') ])
 		self.defineInternalStateVars()
-		self.fillFromDerived()
-		self.fillFromRocksAttributes()
 		self.beginOutput()
 
                 for host in self.getHostnames(args):
 			self.host = host
+			self.fillFromDerived()
+			self.fillFromRocksAttributes()
 			self.Config()
 			self.writeConfigFile(self.dict, self.configLocal)
 
