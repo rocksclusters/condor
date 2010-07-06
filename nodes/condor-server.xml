@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.59  2010/07/06 19:15:34  phil
+    Beta version of condor 7.4.2
+
     Revision 1.58  2010/03/03 17:24:39  phil
     1st stab at automatic integration of condor node running in EC2 to local
     collector.
@@ -228,7 +231,7 @@ CMaster=&Kickstart_PublicHostname;
 # modify set of daemons running on master 
 /opt/rocks/bin/rocks add appliance attr frontend Condor_Daemons value="MASTER, SCHEDD, COLLECTOR, NEGOTIATOR"
 # bind the network to the public interface 
-/opt/rocks/bin/rocks add appliance attr Condor_Network value=public
+/opt/rocks/bin/rocks add appliance attr frontend Condor_Network value=public
 
 <file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
 #!/bin/sh
@@ -236,6 +239,7 @@ CMaster=&Kickstart_PublicHostname;
 LOCAL_DIR=/var/opt/condor
 rm -rf $LOCAL_DIR
 mkdir -p $LOCAL_DIR
+mkdir $LOCAL_DIR/log
 
 chown -R condor.condor $LOCAL_DIR
 chmod a+rx  $LOCAL_DIR

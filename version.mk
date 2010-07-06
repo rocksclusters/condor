@@ -1,5 +1,5 @@
 ROLLNAME = condor
-RELEASE = 0
+RELEASE = 0beta
 COLOR = "tomato"
 
 REDHAT.ROOT = $(PWD)
