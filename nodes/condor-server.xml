@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.60  2010/07/06 19:36:55  phil
+    Spool directory for schedd
+
     Revision 1.59  2010/07/06 19:15:34  phil
     Beta version of condor 7.4.2
 
@@ -240,6 +243,7 @@ LOCAL_DIR=/var/opt/condor
 rm -rf $LOCAL_DIR
 mkdir -p $LOCAL_DIR
 mkdir $LOCAL_DIR/log
+mkdir $LOCAL_DIR/spool
 
 chown -R condor.condor $LOCAL_DIR
 chmod a+rx  $LOCAL_DIR
