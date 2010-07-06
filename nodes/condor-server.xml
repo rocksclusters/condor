@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.61  2010/07/06 19:42:36  phil
+    couple of more condor spooling directories
+
     Revision 1.60  2010/07/06 19:36:55  phil
     Spool directory for schedd
 
@@ -244,6 +247,8 @@ rm -rf $LOCAL_DIR
 mkdir -p $LOCAL_DIR
 mkdir $LOCAL_DIR/log
 mkdir $LOCAL_DIR/spool
+mkdir $LOCAL_DIR/cred_dir
+mkdir $LOCAL_DIR/execute
 
 chown -R condor.condor $LOCAL_DIR
 chmod a+rx  $LOCAL_DIR
