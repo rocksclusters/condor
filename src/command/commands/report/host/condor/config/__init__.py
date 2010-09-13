@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.4 2010/09/07 23:53:12 bruno Exp $
+#$Id: __init__.py,v 1.5 2010/09/13 20:49:06 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.5  2010/09/13 20:49:06  phil
+# Ready for Rocks 5.4 beta. Updated to new version. Now has a sync host condor similar to sync host network. Small updates on the docs.
+#
 # Revision 1.4  2010/09/07 23:53:12  bruno
 # star power for gb
 #
@@ -132,12 +135,10 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['DAEMON_LIST']         = None
 		self.dict['EMAIL_DOMAIN']        = '$(FULL_HOSTNAME)'
 		self.dict['FILESYSTEM_DOMAIN']   = None 
-		self.dict['HIGHPORT']            = 40050 
 		self.dict['HOSTALLOW_WRITE']     = None 
 		self.dict['JAVA']                = None
 		self.dict['KILL']                = 'False'
 		self.dict['LOCK']                = '/tmp/condor-lock.$(HOSTNAME)'
-		self.dict['LOWPORT']             = 40000 
 		self.dict['MAIL']                = None
 		self.dict['MPI_CONDOR_RSH_PATH'] = '$(LIBEXEC)'
 		self.dict['NEGOTIATOR_INTERVAL'] = '120'
@@ -163,11 +164,13 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['FILESYSTEM_DOMAIN'] = \
 			self.db.getHostAttr('localhost','Kickstart_PublicDNSDomain')
 
-		self.dict['LOWPORT'] = \
-			self.db.getHostAttr(self.host,'Condor_PortLow')
+		if self.db.getHostAttr(self.host,'Condor_PortLow') > 0:
+			self.dict['LOWPORT'] = \
+				self.db.getHostAttr(self.host,'Condor_PortLow')
 
-		self.dict['HIGHPORT'] = \
-			self.db.getHostAttr(self.host,'Condor_PortHigh')
+		if self.db.getHostAttr(self.host,'Condor_PortHigh') > 0:
+			self.dict['HIGHPORT'] = \
+				self.db.getHostAttr(self.host,'Condor_PortHigh')
 
 		if self.dict['UID_DOMAIN'] is None:
 			self.dict['UID_DOMAIN'] =  \

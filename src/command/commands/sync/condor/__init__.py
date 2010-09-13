@@ -1,4 +1,4 @@
-# $Id: __init__.py,v 1.5 2010/09/07 23:53:12 bruno Exp $
+# $Id: __init__.py,v 1.6 2010/09/13 20:49:06 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.6  2010/09/13 20:49:06  phil
+# Ready for Rocks 5.4 beta. Updated to new version. Now has a sync host condor similar to sync host network. Small updates on the docs.
+#
 # Revision 1.5  2010/09/07 23:53:12  bruno
 # star power for gb
 #
@@ -82,41 +85,11 @@ import rocks.commands
 
 class Command(rocks.commands.sync.command):
 	"""
-	This command will stop the Condor Daemons on a master host,
-	re-read information from the Rocks configuration database, 
-	reconfigure Condor base on this information, and restart Condor.
+	This command is syntactic sugar for "rocks sync host condor localhost"
 	<example cmd='sync condor'>
 	Rebuild the Condor Configuration
 	</example>
 	"""
 
 	def run(self, params, args):
-		condorPost=os.path.normpath('/etc/rc.d/rocksconfig.d/post-90-condor-server')
-		condorSvc='/sbin/service rocks-condor'
-		cmd = '%s stop' % condorSvc
-                for line in os.popen(cmd).readlines():
-			print line,
-
-		if os.path.exists(condorPost):
-			os.remove(condorPost)
-
-		os.chdir(os.path.dirname(condorPost))
-                for line in os.popen('/usr/bin/co %s' % 
-				os.path.basename(condorPost)).readlines():
-			print line
-		os.chmod(condorPost,0770)
-		
-		while self.condorActive() != 0:
-			print "Waiting for Condor Processes to Exit."
-			time.sleep(5)
-		
-		cmd = '%s start' % condorSvc
-                for line in os.popen(cmd).readlines():
-                     	print line, 
-		
-	def condorActive(self):
-		numProcs=0	
-		cProcs=os.popen('/bin/ps -elf | /bin/grep condor | /bin/grep -v condor')
-		for line in cProcs.readlines():
-			numProcs += 1
-		return numProcs
+		self.command('sync.host.condor', ['localhost' ] )

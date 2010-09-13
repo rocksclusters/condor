@@ -48,10 +48,29 @@ Condor_ClientNetwork: Define which network interface that the master uses for Co
 </para>
 </listitem>
 
+
+<listitem>
+<para>
+Condor_PortHigh: Upper Port range that Condor will use to communicate among 
+daemons. Defaults to 50000. Removal of this Attribute will result in removal of the CONDOR_HIGHPORT paramter in condor_config.local after syncing the configuration.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Condor_PortLow Lower Port range that Condor will use to communicate among 
+daemons. Defaults to 40000. Removal of this Attribute will result in removal of the CONDOR_LOWPORT paramter in condor_config.local after syncing the configuration.
+</para>
+</listitem>
+
 </itemizedlist>
 
 </para>
 
+</section>
+
+<section id="config-examples-condor" xreflabel="Condor Configuration Examples">
+<title>Examples of Condor Configuration</title>
 <para>
 The following are short examples of how to customize Condor using 
 Rocks commands.
@@ -85,28 +104,40 @@ Define a New Condor Master:
 
 </para>
 
+</section> 
 
+<section id="reconfiguring-condor" xreflabel="Reconfiguring Condor">
+<title>Reconfiguring Condor after Installation </title>
 <para>
 The configuration of Condor is done during the install, the resulting 
-configuration files are located in /opt/condor/etc. To reconfigure a Condor 
-Pool Master on a Rocks Frontend, make appropriate attribute changes and then run
+configuration files are located in /opt/condor/etc. To reconfigure Condor 
+on a node,  make appropriate attribute using the commands above  and then run
 <screen>
-# rocks sync condor
+# rocks sync host condor &lt;hostname&gt;
 </screen>
 </para>
-
 <para>
-For worker nodes, apply changes and then reinstall the worker nodes. 
+This will rewrite the condor_config.local on the file and then calls the Condor
+command <computeroutput>/opt/condor/sbin/condor_reconfigure</computeroutput>
 </para>
 
+<note>
 <para>
-To find information about administrering and using Condor Pools
+To view the contents of the condor_config.local before making changes, use
+<computeroutput>rocks report host condor config &lt;hostname&gt;</computeroutput>
+</para>
+</note>
+
+
+<para>
+To find information about administrating  and using Condor Pools
 please see the original Condor manual at <ulink
 url="http://www.cs.wisc.edu/condor/manual">Condor
 manuals</ulink>
 </para>
 
 </section>
+
 
 </chapter>
 
