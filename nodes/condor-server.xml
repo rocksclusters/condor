@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.63  2010/09/14 02:08:57  phil
+    Update the default PortHigh to be 50000
+
     Revision 1.62  2010/09/07 23:53:12  bruno
     star power for gb
 
@@ -231,7 +234,7 @@ CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_Network value=private
 /opt/rocks/bin/rocks add attr Condor_Daemons value="MASTER, STARTD"
 /opt/rocks/bin/rocks add attr Condor_PortLow value="40000"
-/opt/rocks/bin/rocks add attr Condor_PortHigh value="40050"
+/opt/rocks/bin/rocks add attr Condor_PortHigh value="50000"
 /opt/rocks/bin/rocks add attr Condor_HostAllow value="+"
 
 
