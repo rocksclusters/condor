@@ -9,7 +9,7 @@
 <para>
 
 This section describes the default Condor configuration and some simple
-cusomizations that can be applied in Rocks 5.2
+cusomizations that can be applied in Rocks with version &gt;= 5.3
 </para>
 
 <para>
@@ -52,14 +52,14 @@ Condor_ClientNetwork: Define which network interface that the master uses for Co
 <listitem>
 <para>
 Condor_PortHigh: Upper Port range that Condor will use to communicate among 
-daemons. Defaults to 50000. Removal of this Attribute will result in removal of the CONDOR_HIGHPORT paramter in condor_config.local after syncing the configuration.
+daemons. Defaults to 50000. Removal of this Attribute will result in removal of the HIGHPORT paramter in condor_config.local after syncing the configuration.
 </para>
 </listitem>
 
 <listitem>
 <para>
 Condor_PortLow Lower Port range that Condor will use to communicate among 
-daemons. Defaults to 40000. Removal of this Attribute will result in removal of the CONDOR_LOWPORT paramter in condor_config.local after syncing the configuration.
+daemons. Defaults to 40000. Removal of this Attribute will result in removal of the LOWPORT paramter in condor_config.local after syncing the configuration.
 </para>
 </listitem>
 
