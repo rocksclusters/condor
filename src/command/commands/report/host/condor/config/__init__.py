@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.5 2010/09/13 20:49:06 phil Exp $
+#$Id: __init__.py,v 1.6 2010/09/15 23:40:03 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.6  2010/09/15 23:40:03  phil
+# Add the plugin capability of the Rocks command line to reporting the condor host config
+#
 # Revision 1.5  2010/09/13 20:49:06  phil
 # Ready for Rocks 5.4 beta. Updated to new version. Now has a sync host condor similar to sync host network. Small updates on the docs.
 #
@@ -78,6 +81,7 @@ import pwd
 import string
 import types
 import rocks.commands
+from syslog import syslog
 
 class Command(rocks.commands.HostArgumentProcessor,
 	rocks.commands.report.command):
@@ -294,6 +298,8 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.setDefaults()
 		self.makeConfigLocal()
 
+
+
 	def run(self, params, args):
 
 		self.initializeDictionary()
@@ -306,6 +312,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 			self.fillFromDerived()
 			self.fillFromRocksAttributes()
 			self.Config()
+			self.runPlugins((host,self.dict))
 			self.writeConfigFile(self.dict, self.configLocal)
 
 		self.endOutput()
