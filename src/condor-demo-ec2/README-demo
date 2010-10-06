@@ -1,0 +1,35 @@
+                       README-demo
+
+The 2HTY_A receptor is docked against each of the available ligands from the NCI diversity db. 
+We use here only 457 ligands.  The preparation step of creating pdbqt files, and grid map files 
+was run on a different machine and results collected.  The actual time for each run is variable and
+much longer then the demo time.  
+For the demo, we use hte autodock4 program that dock receptor and a ligand. Each docking is a condor job.
+
+Step by step:
+
+Step 1: prep jobs making pdbqt files, grid maps, etc - run on a separate machine.  Get the files needed for the docking.
+Step 2: to install on EC2 machine:
+  (1) bio roll  (need autodock4 program)
+  (2) NCIdiversity.tar.gz - database of ligands. This will be used by autodock4 program
+          mkdir -p /share/apps/db
+          gunzip -c NCIdiversity.tar.gz | ( cd /share/apps/db; tar xvf -)
+
+Step 3: to install in user account on a frontend (condor master) for runnign the demo:
+  (1) install the database od ligands as in Step 2, Choose the same dir. 
+  (2) 2HTY_A-demo.tar.gz - demo files and scripts
+          tar xvf 2HTY_A-demo.tar.gz
+      This results in: 2HTY_A/ prepJob.sh  run_adt.sh
+      2HTY_A/ - directory of map files and description files that resulted from running autogrid program
+                This was a  set of files that resulted from Step 1 (ru elsewhere) 
+      prepJob.sh - a script that creates a condor submit file and needed links (this is for naming convention for ligands)
+      run_adt.sh - a scipt that will be executed as a condor job
+
+   (3) Create all needed files: 
+          ./prepJob.sh 2HTY_A 2HTY_A/dpfs
+   (4) submit condor job
+          condor_submit 2HTY_A.sub 
+       The resulting docking files are collected in the directory where condor job was run, and the
+       logs/output will be written in logs-2HTY_A/
+
+NOTE: if the database installation directory is changed, adjust DBDIR variable in run_adt.sh.
