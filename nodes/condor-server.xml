@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.64  2010/10/19 21:37:46  bruno
+    suppress 'rocks sync users' output messages
+
     Revision 1.63  2010/09/14 02:08:57  phil
     Update the default PortHigh to be 50000
 
@@ -259,7 +262,7 @@ mkdir $LOCAL_DIR/execute
 chown -R condor.condor $LOCAL_DIR
 chmod a+rx  $LOCAL_DIR
 
-/opt/rocks/bin/rocks sync users
+/opt/rocks/bin/rocks sync users &gt; /dev/null 2&gt;&amp;1
 
 if [ -f /etc/profile.d/java.sh ]; then
    . /etc/profile.d/java.sh
