@@ -1,4 +1,4 @@
-# $Id: plugin_shared_secret.py,v 1.1 2010/10/16 00:40:28 phil Exp $
+# $Id: plugin_shared_secret.py,v 1.2 2010/10/21 00:11:17 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: plugin_shared_secret.py,v $
+# Revision 1.2  2010/10/21 00:11:17  phil
+# Slightly more relaxed acceptance of local nodes.
+#
 # Revision 1.1  2010/10/16 00:40:28  phil
 # Use a shared secret file of Condor_PasswordAuth attribute is set
 #
@@ -106,7 +109,6 @@ class Plugin(rocks.commands.Plugin):
 		kvstore['SEC_ADVERTISE_STARTD_INTEGRITY'] = 'REQUIRED'
 		kvstore['SEC_ADVERTISE_STARTD_AUTHENTICATION_METHODS'] = "PASSWORD"
 		kvstore['SEC_CLIENT_AUTHENTICATION_METHODS'] = "FS, PASSWORD, KERBEROS, GSI"
-		kvstore['SEC_CLIENT_AUTHENTICATION_METHODS'] = "PASSWORD, KERBEROS, GSI"
 
 		kvstore['ALLOW_ADVERTISE_STARTD'] = 'condor_pool@$(UID_DOMAIN)/*.%s' % (kvstore['UID_DOMAIN'])
 		allowHosts=self.db.getHostAttr(host, 'Condor_HostAllow')
