@@ -1,4 +1,4 @@
-# $Id: __init__.py,v 1.1 2010/09/13 20:49:06 phil Exp $
+# $Id: __init__.py,v 1.2 2010/10/22 20:38:29 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.2  2010/10/22 20:38:29  phil
+# Add ability to sync the condor password file.
+#
 # Revision 1.1  2010/09/13 20:49:06  phil
 # Ready for Rocks 5.4 beta. Updated to new version. Now has a sync host condor similar to sync host network. Small updates on the docs.
 #
@@ -131,13 +134,28 @@ class Command(rocks.commands.sync.host.command):
 	"""
 	Reconfigure Condor daemon on the named hosts.
 
+	<param type="bool" name="syncpassword">
+	If set and the attribute Condor_PasswordAuth is True, this will
+	will copy the condor pool password the the host. 
+	Default is no.
+	</param>
+
 	<example cmd='sync host condor  compute-0-0'>
-	Rewrite /opt/condor/etc/condor_config.local and the call condor_reconfigure on host compute-0-0
+	Rewrite /opt/condor/etc/condor_config.local and the call 
+	condor_reconfigure on host compute-0-0
+	</example>
+
+	<example cmd='sync host condor syncpassword=yes compute-0-0'>
+	Rewrite /opt/condor/etc/condor_config.local, copy the Condor
+	pool password file if Condor_PasswordAuth host atrribute is set,
+	and finally call condor_reconfigure on host compute-0-0
 	</example>
 	"""
 
 	def run(self, params, args):
 		hosts = self.getHostnames(args, managed_only=1)
+		syncpw, = self.fillParams([ ('syncpassword', 'n') ])
+		syncpw = self.str2bool(syncpw)
 
 		threads = []
 		for host in hosts:
@@ -159,6 +177,10 @@ class Command(rocks.commands.sync.host.command):
 			cmd += 'attrs="%s" | ' % attrs
 			cmd += 'ssh %s bash > /dev/null 2>&1 ' % host
 
+			pwauth = self.str2bool(attrs['Condor_PasswordAuth'])
+			if syncpw and pwauth:
+				cmd += '; scp /var/opt/condor/pool_password %s:/var/opt/condor' % host
+				cmd += '> /dev/null 2>&1 '
 			cmd += '; ssh %s /opt/condor/sbin/condor_reconfig > /dev/null 2>&1 ' % host
 
 			p = Parallel(cmd)
