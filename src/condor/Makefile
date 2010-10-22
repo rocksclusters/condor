@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.25 2010/09/07 23:53:12 bruno Exp $
+# $Id: Makefile,v 1.26 2010/10/22 20:43:55 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,12 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.26  2010/10/22 20:43:55  phil
+# Updated to 7.4.4 (released Oct 18, 2010).
+# Keep 7.4.3 Tarballs in tree.
+# Support pool password creation.
+# Adjust graph to properly respect Condor_Client attribute
+#
 # Revision 1.25  2010/09/07 23:53:12  bruno
 # star power for gb
 #
@@ -152,55 +158,21 @@ endif
 
 NAME = condor
 EXT  = linux-x86$(X86_64)-rhel5-dynamic
-
-SEDSPEC += \
-	-e 's%@TOP@%$(PWD)%g' \
-	-e 's%@EXT@%$(EXT)%g' \
-	-e 's%@GT3_INSTALL@%$(PKGROOT)/lib/gt3%g' \
-	-e 's%@GT4_INSTALL@%$(PKGROOT)/lib/gt4%g'
-
 TARBALL = $(NAME)-$(VERSION)-$(EXT)
-GT3DIR = $(NAME)-$(VERSION)/lib/gt3/
-GT4DIR = $(NAME)-$(VERSION)/lib/gt4/
 
 version.mk: version.mk.in
 	/bin/cat version.mk.in ../version.mk > version.mk
-
-
-pretar::
-	cp $(TARBALL).tar.gz $(REDHAT.SOURCES)
-
-
 build::
-	tar -zxf $(TARBALL).tar.gz
-	cd patch-files && find . -type f | grep -v CVS | cpio -pduv ../
-
 
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
-	mkdir -p $(ROOT)/$(PKGROOT)/bin
-	mkdir -p $(ROOT)/$(PKGROOT)/etc/examples
-	mkdir -p $(ROOT)/$(PKGROOT)/examples
-	mkdir -p $(ROOT)/$(PKGROOT)/include
-	mkdir -p $(ROOT)/$(PKGROOT)/lib
-	mkdir -p $(ROOT)/$(PKGROOT)/libexec
-	mkdir -p $(ROOT)/$(PKGROOT)/man/man1
-	mkdir -p $(ROOT)/$(PKGROOT)/sbin
-	mkdir -p $(ROOT)/$(PKGROOT)/src/chirp
-	mkdir -p $(ROOT)/$(PKGROOT)/src/drmaa
-	install -m644 $(NAME)-$(VERSION)/LICENSE-2.0.txt $(ROOT)/$(PKGROOT)
-	install -m755 $(NAME)-$(VERSION)/bin/* $(ROOT)/$(PKGROOT)/bin
-	install -m644 $(NAME)-$(VERSION)/etc/examples/* $(ROOT)/$(PKGROOT)/etc/examples
+	$(TAR) xzvf $(TARBALL).tar.gz -C $(ROOT)
+	{ 	cd $(ROOT)/$(NAME)-$(VERSION); 	\
+		mv * $(ROOT)/$(PKGROOT);	\
+		cd ..; 				\
+		rmdir $(NAME)-$(VERSION); 	\	
+	}
 	install -m755 $(SCRIPT) $(ROOT)/$(PKGROOT)/sbin
-	cp -R $(NAME)-$(VERSION)/examples/* $(ROOT)/$(PKGROOT)/examples
-	install -m644 $(NAME)-$(VERSION)/include/* $(ROOT)/$(PKGROOT)/include
-	cp -R $(NAME)-$(VERSION)/lib/* $(ROOT)/$(PKGROOT)/lib
-	cp -R $(NAME)-$(VERSION)/libexec/* $(ROOT)/$(PKGROOT)/libexec
-	install -m644 $(NAME)-$(VERSION)/man/man1/* $(ROOT)/$(PKGROOT)/man/man1
-	install -m755 $(NAME)-$(VERSION)/sbin/* $(ROOT)/$(PKGROOT)/sbin
-	install -m644 $(NAME)-$(VERSION)/src/chirp/* $(ROOT)/$(PKGROOT)/src/chirp
-
-
 clean::
 	rm -rf $(NAME)-$(VERSION)
 	rm -f version.mk

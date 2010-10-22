@@ -1,4 +1,4 @@
-# $Id: __init__.py,v 1.1 2010/10/22 05:11:50 phil Exp $
+# $Id: __init__.py,v 1.2 2010/10/22 20:43:55 phil Exp $
 #
 # @Copyright@
 # 
@@ -54,6 +54,12 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.2  2010/10/22 20:43:55  phil
+# Updated to 7.4.4 (released Oct 18, 2010).
+# Keep 7.4.3 Tarballs in tree.
+# Support pool password creation.
+# Adjust graph to properly respect Condor_Client attribute
+#
 # Revision 1.1  2010/10/22 05:11:50  phil
 # A rocks helper function to create a condor pool password.
 # Useful of you want password-based security.
@@ -77,12 +83,21 @@ class Command(command):
 	Default: /var/opt/condor/pool_password
 	</param>
 
+	<param type='bool' name='add'>
+	add the newly created key to the condor credential daemon.
+	Default: yes
+	</param>
 	"""
 
 	def run(self, params, args):
-		keyfile,  = self.fillParams([
-			('keyfile','/var/opt/condor/pool_password'),])
+		(keyfile,add)  = self.fillParams([
+			('keyfile','/var/opt/condor/pool_password'),
+			('add','yes')])
 
+		if self.str2bool(add):
+			addit="add"
+		else:
+			addit=""
 		if os.path.exists(keyfile):
 			self.abort("the key file '%s' already exists. Please remove first" % keyfile)
 
@@ -90,7 +105,8 @@ class Command(command):
 		# generate the key using a random string 
 		#
 		cmd = '/usr/bin/uuidgen -r | '
-		cmd += '/opt/condor/sbin/condor_store_cred -f %s' % keyfile 
+		cmd += '/opt/condor/sbin/condor_store_cred %s -f %s' % (addit,keyfile)
+
 		status = os.system(cmd)
 		if status != 0:
 			os.remove(keyfile)
