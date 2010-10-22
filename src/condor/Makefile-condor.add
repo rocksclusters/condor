@@ -1,8 +1,0 @@
-
-############ ROCKS #################
-rocks: stripped manpages
-	rm -f strip_dir/release.tar
-	if  [ -d condor_release/examples ] ; then \
-	    cp -r condor_release/examples strip_dir; \
-	fi
-
