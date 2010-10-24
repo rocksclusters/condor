@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.26 2010/10/22 20:43:55 phil Exp $
+# $Id: Makefile,v 1.27 2010/10/24 04:05:21 bruno Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,30 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.27  2010/10/24 04:05:21  bruno
+# can't have white space after a '\', *phil*!
+#
+# jeez, i mean, seriously? is this
+# your first rodeo? and, "make" has only been around since 1977
+# (http://en.wikipedia.org/wiki/Make_(software)). hell that, was even before
+# disco (which i know you love -- dancing queen!). you remember 1977. carter
+# became president (that worked out!), Fleetwood Mac released "Rumors" (you
+# *totally* made out to "you make lovin' fun"), KLM and Pan Am 747's collide
+# at Tenerife (sad), The Clash releases their debut album (which you love,
+# which makes up for your Fleetwood Mac obsession), in may, you go to see this
+# little known movie "Star Wars", and you say, "i liked it, but i don't think
+# it will stand up to the test of time", you attended Elvis Presley's concert
+# at Indiana's Market Square Arena and you said "looks like that brother needs
+# a banana peanut butter sandwich  (turns out, it was Elvis's last concert),
+# new york has a blackout for 25 hours (you were quoted as saying, "i dare
+# you to pee on this!"), you look at the TRS-80 and say "that should be called
+# the TRASH-80!), while in geneva, you eye the new porche 928 and say "i like
+# that", then you watch Reggie Jackson hit 3, count 'em 3!, homeruns against
+# the Dodgers (Dodgers suck!), lockhead's stealth fighter makes it's first
+# flight and you respond "i don't see a future in it".
+#
+# regardless, i love you man.
+#
 # Revision 1.26  2010/10/22 20:43:55  phil
 # Updated to 7.4.4 (released Oct 18, 2010).
 # Keep 7.4.3 Tarballs in tree.
@@ -167,12 +191,13 @@ build::
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(TAR) xzvf $(TARBALL).tar.gz -C $(ROOT)
-	{ 	cd $(ROOT)/$(NAME)-$(VERSION); 	\
+	( 	cd $(ROOT)/$(NAME)-$(VERSION); 	\
 		mv * $(ROOT)/$(PKGROOT);	\
 		cd ..; 				\
-		rmdir $(NAME)-$(VERSION); 	\	
-	}
+		rmdir $(NAME)-$(VERSION) 	\
+	)
 	install -m755 $(SCRIPT) $(ROOT)/$(PKGROOT)/sbin
+
 clean::
 	rm -rf $(NAME)-$(VERSION)
 	rm -f version.mk
