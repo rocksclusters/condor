@@ -18,7 +18,11 @@ middleware on Rocks Clusters.
 Please visit the <ulink url="http://www.cs.wisc.edu/condor/">Condor
 Project Homepage</ulink> to learn more about Condor and the 
 software releases.
+</para>
 
+<para>
+A local copy of their online manual pages is available 
+<ulink url="condor-Manual"> on this cluster </ulink>.
 </para>
 
 </preface>

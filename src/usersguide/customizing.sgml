@@ -32,6 +32,13 @@ Condor_Client: Enable/Disable Condor Client Installation on any particular Appli
 
 <listitem>
 <para>
+Condor_PasswordAuth: Use a shared pool password, instead of host-based 
+authentication. Default: no. 
+</para>
+
+</listitem>
+<listitem>
+<para>
 Condor_Master: Redefine the Condor Master that nodes use
 </para>
 </listitem>
@@ -69,6 +76,41 @@ daemons. Defaults to 40000. Removal of this Attribute will result in removal of 
 
 </section>
 
+<!-- ***************************************************************** -->
+<section id="condor-password-security" xreflabel="Condor Pool Password Security">
+<title>Using a pool password to secure Condor Communications</title>
+<para>
+The default Rocks configuration is to use host-based authentication. This is a good and simple choice for a cluster with a private network.  With the Rocks 5.4 version of the Condor Roll, it is straightforward to set up a "Pool Password"
+that utilizes a shared secret among pool members.  This is especially useful
+when allowing remote systems to report directly to the Condor collector on your cluster.  The EC2 Roll can utilize a pool password for a higher security.
+</para>
+<para>
+The following, straightforward will create, copy and enable a 
+system-wide shared-secret pool password.
+<orderedlist> 
+<listitem> 
+<para>
+Create a pool password. Use  
+<computeroutput> rocks create condor password</computeroutput>
+</para>
+</listitem>
+<listitem> 
+<para>
+Enable pool password security. Use <computeroutput> rocks set attr Condor_Password yes</computeroutput>
+</para>
+</listitem>
+<listitem> 
+<para>
+Reconfigure Condor Daemons and copy new pool password. Use
+<computeroutput> rocks sync host condor syncpassword=yes localhost compute
+</computeroutput>
+</para> 
+</listitem>
+</orderedlist>
+</para> 
+
+
+</section>
 <section id="config-examples-condor" xreflabel="Condor Configuration Examples">
 <title>Examples of Condor Configuration</title>
 <para>
@@ -133,7 +175,7 @@ To view the contents of the condor_config.local before making changes, use
 To find information about administrating  and using Condor Pools
 please see the original Condor manual at <ulink
 url="http://www.cs.wisc.edu/condor/manual">Condor
-manuals</ulink>
+manuals</ulink> or <ulink url="condor-Manual"> locally </ulink>.
 </para>
 
 </section>

@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.23 2010/09/07 23:53:13 bruno Exp $
+# $Id: Makefile,v 1.24 2010/10/25 20:13:47 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.24  2010/10/25 20:13:47  phil
+# Add a local copy of Condor's online manpages. Describe pool password security
+#
 # Revision 1.23  2010/09/07 23:53:13  bruno
 # star power for gb
 #
@@ -69,11 +72,12 @@
 
 PKGROOT         = /var/www/html/roll-documentation/condor/$(VERSION)
 REDHAT.ROOT     = $(PWD)/../../
+CONDORMANUAL 	= condor-$(MANUALRELEASE)-Manual.tar.gz
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
-default: $(NAME).spec ../$(NAME)-$(VERSION).tar.gz
+default: $(NAME).spec 
 
 html: predoc
 	jw --backend html --dsl $(PWD)/rocks.dsl#html index.sgml 
@@ -86,6 +90,10 @@ build: html pdf
 install:: build
 	mkdir -p $(ROOT)/$(PKGROOT)/images
 	mkdir -p $(ROOT)/$(PKGROOT)/stylesheet-images
+	$(TAR) xzf $(CONDORMANUAL) -C $(ROOT)/$(PKGROOT)
+	(cd $(ROOT)/$(PKGROOT); mv condor-$(MANUALRELEASE)-Manual condor-Manual)
+	chmod -R go+r $(ROOT)/$(PKGROOT)/condor-Manual
+	chmod o+x $(ROOT)/$(PKGROOT)/condor-Manual
 	install -ma+r index.pdf 	$(ROOT)/$(PKGROOT)/$(NAME).pdf
 	install -ma+r *.html    	$(ROOT)/$(PKGROOT)/
 	install -ma+r images/*.png	$(ROOT)/$(PKGROOT)/images/
