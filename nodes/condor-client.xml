@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-client.xml,v $
+    Revision 1.48  2010/10/25 23:21:10  phil
+    Support pool password on Kickstart. Uses sudo to allow apache to cat the file.
+
     Revision 1.47  2010/10/22 20:43:54  phil
     Updated to 7.4.4 (released Oct 18, 2010).
     Keep 7.4.3 Tarballs in tree.
@@ -185,6 +188,17 @@ echo "JAVA_EXTRA_ARGUMENTS = -Xmx${localmem}m" &gt;&gt; /opt/condor/etc/condor_c
 
 <post cond="ec2_enable">
 chkconfig --add ec2-condor-collector
+</post>
+
+
+<post cond="Condor_PasswordAuth">
+<file name="/tmp/poolpassword">
+<eval>/usr/bin/sudo /bin/cat /var/opt/condor/pool_password | /usr/bin/uuencode --base64 /var/opt/condor/pool_password
+</file>
+
+/usr/bin/uudecode  /tmp/poolpassword
+/bin/chmod  600 /var/opt/condor/pool_password
+/bin/rm /tmp/poolpassword
 </post>
 
 </kickstart> 
