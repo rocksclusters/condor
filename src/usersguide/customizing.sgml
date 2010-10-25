@@ -9,68 +9,118 @@
 <para>
 
 This section describes the default Condor configuration and some simple
-cusomizations that can be applied in Rocks with version &gt;= 5.3
+cusomizations that can be applied in Rocks with version &gt;= 5.4
 </para>
 
 <para>
 By default, Condor execution daemons are only installed on Rocks
 <emphasis>compute</emphasis> appliances. For Rocks 5.2 and newer, the Condor
-roll makes use of attributes to enable Condor to be installed on any appliance.
+roll makes use of <emphasis>attributes</emphasis>
+to enable Condor to be installed on any appliance.
 This may be particularly useful to groups who are including the Xen roll
 and would like Condor to install on VM Container appliances. 
-	
+</para>
+
+<para>
 The basic customizations that can be applied without and scripting/programming
-are as follows
-<itemizedlist>
+by setting global, appliance, or host attributes. Please see the
+commands <computeroutput> rocks set attr help </computeroutput>
+and
+<computeroutput> rocks list attr help </computeroutput>
 
-<listitem>
-<para>
-Condor_Client: Enable/Disable Condor Client Installation on any particular Appliance or Host
 </para>
 
-</listitem>
-
-<listitem>
 <para>
-Condor_PasswordAuth: Use a shared pool password, instead of host-based 
+
+<table frame='all'><title>Attributes Used in Condor Roll</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry align="center">Attibute Name</entry>
+  <entry align="center">Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Condor_Client</entry>
+<entry>
+Enable/Disable Condor Client Installation on any particular Appliance or Host
+</entry>
+</row>
+<row>
+<entry>Condor_PasswordAuth </entry>
+<entry>
+ Use a shared pool password, instead of host-based 
 authentication. Default: no. 
-</para>
+</entry>
+</row>
 
-</listitem>
-<listitem>
-<para>
-Condor_Master: Redefine the Condor Master that nodes use
-</para>
-</listitem>
-
-<listitem>
-<para>
-Condor_MasterNetwork: Define which network interface that the master uses for Condor traffic
-</para>
-</listitem>
-
-<listitem>
-<para>
-Condor_ClientNetwork: Define which network interface that the master uses for Condor traffic
-</para>
-</listitem>
+<row>
+<entry>Condor_HostAllow </entry>
+<entry>
+Comma separates list of allowed readers/writers for Condor. Translates to 
+HOSTALLOW directive in Condor Configuration file.
+</entry>
+</row>
 
 
-<listitem>
-<para>
-Condor_PortHigh: Upper Port range that Condor will use to communicate among 
-daemons. Defaults to 50000. Removal of this Attribute will result in removal of the HIGHPORT paramter in condor_config.local after syncing the configuration.
-</para>
-</listitem>
+<row>
+<entry>Condor_EnableMPI </entry>
+<entry>
+Configure a local scheduler for MPI Universe Support
+</entry>
+</row>
+<row>
+<entry>
+Condor_Master
+</entry>
+<entry>
+Redefine the Condor Master that nodes use
+</entry>
+</row>
 
-<listitem>
-<para>
-Condor_PortLow Lower Port range that Condor will use to communicate among 
-daemons. Defaults to 40000. Removal of this Attribute will result in removal of the LOWPORT paramter in condor_config.local after syncing the configuration.
-</para>
-</listitem>
+<row>
+<entry>
+Condor_MasterNetwork 
+</entry>
+<entry>
+Define which network interface that the master uses for Condor traffic
+</entry>
+</row>
 
-</itemizedlist>
+<row>
+<entry>
+Condor_ClientNetwork: 
+</entry>
+<entry>
+Define which network interface that the master uses for Condor traffic
+</entry>
+</row>
+
+
+<row>
+<entry>
+Condor_PortHigh: 
+</entry>
+<entry>
+Upper Port range that Condor will use to communicate among 
+daemons. Defaults to 50000. Removal of this Attribute will result in removal of the HIGHPORT entry in condor_config.local after syncing the configuration.
+</entry>
+</row>
+
+<row>
+<entry>
+Condor_PortLow 
+</entry>
+<entry>
+Lower Port range that Condor will use to communicate among 
+daemons. Defaults to 40000. Removal of this Attribute will result in removal of the LOWPORT entry in condor_config.local after syncing the configuration.
+</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
 
 </para>
 
@@ -201,7 +251,7 @@ view the file in location
 /opt/rocks/lib/python2.4/site-packages/rocks/commands/report/host/condor/config/plugin_sample.py
 </computeroutput>, which is reproduced here.
 <screen>
-# $Id: customizing.sgml,v 1.5 2010/10/25 20:43:50 phil Exp $
+# $Id: customizing.sgml,v 1.6 2010/10/25 21:09:05 phil Exp $
 import rocks.commands
 
 class Plugin(rocks.commands.Plugin):
