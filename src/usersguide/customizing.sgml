@@ -180,6 +180,87 @@ manuals</ulink> or <ulink url="condor-Manual"> locally </ulink>.
 
 </section>
 
+<!-- ***************************************************************** -->
+<section id="condor-advanced-configuration" xreflabel="Making Deeper Changes">
+<title>Programatically changing the Contents of condor_config.local</title>
+<para>
+Condor configuration is localized into /opt/condor/etc/condor_config.local.
+This file is generated programatically from the output of 
+<computeroutput>rocks report host condor config &lt;hostname&gt;
+</computeroutput>.
+</para>
+<para>
+The command <computeroutput>rocks report host condor config</computeroutput>
+is defined by the Condor roll and is written in Python. This report command is 
+extensible through Rocks command plugins. 
+</para>
+<para>
+To see a sample Condor plugin, 
+view the file in location
+<computeroutput>
+/opt/rocks/lib/python2.4/site-packages/rocks/commands/report/host/condor/config/plugin_sample.py
+</computeroutput>, which is reproduced here.
+<screen>
+# $Id: customizing.sgml,v 1.5 2010/10/25 20:43:50 phil Exp $
+import rocks.commands
 
+class Plugin(rocks.commands.Plugin):
+
+	def provides(self):
+		return 'sample'
+
+	def run(self, argv):
+		# Argv contains the hostname and the in memory key-value store
+	        # that is eventually written to 
+		# /opt/condor/etc/condor_config.local
+		# plugins can add/change/remove keys from the store
+
+		# 1. Get the hostname and the key-value store, which
+		#    is a python dictionary 
+		host, kvstore = argv 
+
+		# The following would add CONDOR_SAMPLE=Sample Plugin
+		# the key = value dictionary (kvstore)  that is written out
+		#
+		# Example 1. Read an attribute from the database and set 
+		# the values
+		value = self.db.getHostAttr(host, 'Condor_HostAllow')
+		kvstore['CONDOR_SAMPLE'] = value 
+		
+		# Example 2. Set the key CONDOR_SAMPLE to the hostname 
+		kvstore['CONDOR_SAMPLE'] = host 
+
+		# Example 3. Remove a key from the dictionary
+		if 'CONDOR_SAMPLE' in kvstore:
+			del kvstore['CONDOR_SAMPLE']
+
+RollName = "condor"
+</screen>
+</para>
+
+<para>
+Users/Roll Developers can add their own plugins for the 
+"report host condor config" command to overwrite, add, and/or delete
+key,value pairs that are written into /opt/condor/etc/condor_config.local.
+</para>
+<para>
+In the above code sample, the Condor report command driver passes
+the hostname and the dictionary of already defined key,value pairs
+(kvstore in the sample code).  The sample code shows several different 
+examples of changing the key 'CONDOR_SAMPLE'.
+</para>
+
+<para>
+Plugins are written in Python, are called in random order,
+ and must be named "plugin_&lt;name&gt;.py".  
+</para>
+<para>
+Plugins also enable any 
+desired configurations to be properly applied with the command
+<computeroutput>
+rocks sync host condor config
+</computeroutput>.
+</para>
+</section>
 </chapter>
 
