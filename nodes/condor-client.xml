@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-client.xml,v $
+    Revision 1.49  2010/10/26 04:24:22  phil
+    missing closing eval tag
+
     Revision 1.48  2010/10/25 23:21:10  phil
     Support pool password on Kickstart. Uses sudo to allow apache to cat the file.
 
@@ -193,7 +196,7 @@ chkconfig --add ec2-condor-collector
 
 <post cond="Condor_PasswordAuth">
 <file name="/tmp/poolpassword">
-<eval>/usr/bin/sudo /bin/cat /var/opt/condor/pool_password | /usr/bin/uuencode --base64 /var/opt/condor/pool_password
+<eval>/usr/bin/sudo /bin/cat /var/opt/condor/pool_password | /usr/bin/uuencode --base64 /var/opt/condor/pool_password</eval>
 </file>
 
 /usr/bin/uudecode  /tmp/poolpassword
