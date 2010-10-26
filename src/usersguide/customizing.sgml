@@ -81,22 +81,12 @@ Redefine the Condor Master that nodes use
 
 <row>
 <entry>
-Condor_MasterNetwork 
+Condor_Network 
 </entry>
 <entry>
-Define which network interface that the master uses for Condor traffic
+Define which network interface is used for Condor traffic. Default: frontends are set to public, clients are set to private.
 </entry>
 </row>
-
-<row>
-<entry>
-Condor_ClientNetwork: 
-</entry>
-<entry>
-Define which network interface that the master uses for Condor traffic
-</entry>
-</row>
-
 
 <row>
 <entry>
@@ -104,7 +94,7 @@ Condor_PortHigh:
 </entry>
 <entry>
 Upper Port range that Condor will use to communicate among 
-daemons. Defaults to 50000. Removal of this Attribute will result in removal of the HIGHPORT entry in condor_config.local after syncing the configuration.
+daemons. Removal of this Attribute will result in removal of the HIGHPORT entry in condor_config.local after syncing the configuration. Default: 50000
 </entry>
 </row>
 
@@ -114,7 +104,7 @@ Condor_PortLow
 </entry>
 <entry>
 Lower Port range that Condor will use to communicate among 
-daemons. Defaults to 40000. Removal of this Attribute will result in removal of the LOWPORT entry in condor_config.local after syncing the configuration.
+daemons. Removal of this Attribute will result in removal of the LOWPORT entry in condor_config.local after syncing the configuration. Default: 40000
 </entry>
 </row>
 
@@ -251,7 +241,7 @@ view the file in location
 /opt/rocks/lib/python2.4/site-packages/rocks/commands/report/host/condor/config/plugin_sample.py
 </computeroutput>, which is reproduced here.
 <screen>
-# $Id: customizing.sgml,v 1.6 2010/10/25 21:09:05 phil Exp $
+# $Id: customizing.sgml,v 1.7 2010/10/26 16:44:00 phil Exp $
 import rocks.commands
 
 class Plugin(rocks.commands.Plugin):
