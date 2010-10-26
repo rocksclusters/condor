@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.6 2010/09/15 23:40:03 phil Exp $
+#$Id: __init__.py,v 1.7 2010/10/26 16:37:28 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.7  2010/10/26 16:37:28  phil
+# Fixes to really respect attributes.
+#
 # Revision 1.6  2010/09/15 23:40:03  phil
 # Add the plugin capability of the Rocks command line to reporting the condor host config
 #
@@ -144,14 +147,13 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['KILL']                = 'False'
 		self.dict['LOCK']                = '/tmp/condor-lock.$(HOSTNAME)'
 		self.dict['MAIL']                = None
-		self.dict['MPI_CONDOR_RSH_PATH'] = '$(LIBEXEC)'
 		self.dict['NEGOTIATOR_INTERVAL'] = '120'
 		self.dict['NETWORK_INTERFACE']   = None 
 		self.dict['PREEMPT']             = 'False'
 		self.dict['RANK']                = None
 		self.dict['RELEASE_DIR']         = '/opt/condor'
 		self.dict['START']               = 'True'
-		self.dict['STARTD_EXPRS']        = '$(STARTD_EXPRS), DedicatedScheduler'
+		self.dict['STARTD_EXPRS']        = '$(STARTD_EXPRS)'
 		self.dict['SUSPEND']             = 'False'
 		self.dict['UID_DOMAIN']          =  None
 		self.dict['UPDATE_COLLECTOR_WITH_TCP']  = 'True'

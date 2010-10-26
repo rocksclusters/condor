@@ -1,4 +1,4 @@
-# $Id: plugin_shared_secret.py,v 1.2 2010/10/21 00:11:17 phil Exp $
+# $Id: plugin_shared_secret.py,v 1.3 2010/10/26 16:37:28 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: plugin_shared_secret.py,v $
+# Revision 1.3  2010/10/26 16:37:28  phil
+# Fixes to really respect attributes.
+#
 # Revision 1.2  2010/10/21 00:11:17  phil
 # Slightly more relaxed acceptance of local nodes.
 #
@@ -95,7 +98,7 @@ class Plugin(rocks.commands.Plugin):
 		host, kvstore = argv 
 
 		authbypass=self.owner.db.getHostAttr(host,"Condor_PasswordAuth")
-		if bool(authbypass) is False:
+		if  authbypass is None or not (authbypass.lower() == "yes" or authbypass.lower() == "true"):
 			return
 
 		# The following would add CONDOR_SAMPLE=Sample Plugin
@@ -119,3 +122,4 @@ class Plugin(rocks.commands.Plugin):
 				for host in allowHosts.split(','):
 					kvstore['ALLOW_ADVERTISE_STARTD'] += "," + \
 					"condor_pool@$(UID_DOMAIN)/%s" % host
+

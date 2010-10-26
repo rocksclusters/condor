@@ -1,4 +1,4 @@
-# $Id: plugin_mpi.py,v 1.1 2010/09/15 23:40:03 phil Exp $
+# $Id: plugin_mpi.py,v 1.2 2010/10/26 16:37:28 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: plugin_mpi.py,v $
+# Revision 1.2  2010/10/26 16:37:28  phil
+# Fixes to really respect attributes.
+#
 # Revision 1.1  2010/09/15 23:40:03  phil
 # Add the plugin capability of the Rocks command line to reporting the condor host config
 #
@@ -97,6 +100,7 @@ class Plugin(rocks.commands.Plugin):
 		# test if MPI is enabled for the host. If so, set up the
 		# the correct config values in the key,value store
 		mpi_enabled = self.db.getHostAttr(host, 'Condor_EnableMPI')
-		if mpi_enabled == 'true':
-			self.setDedicated(host,kvstore)
+		if mpi_enabled is not None:
+			if (mpi_enabled.lower() == 'true' or mpi_enabled.lower() == 'yes'):
+				self.setDedicated(host,kvstore)
 
