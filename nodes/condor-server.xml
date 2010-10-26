@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.66  2010/10/26 05:13:17  phil
+    Need PasswordAuth Attribute in the database.
+
     Revision 1.65  2010/10/22 20:43:54  phil
     Updated to 7.4.4 (released Oct 18, 2010).
     Keep 7.4.3 Tarballs in tree.
@@ -244,6 +247,7 @@ CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_PortLow value="40000"
 /opt/rocks/bin/rocks add attr Condor_PortHigh value="50000"
 /opt/rocks/bin/rocks add attr Condor_HostAllow value="+"
+/opt/rocks/bin/rocks add attr Condor_PasswordAuth value="no"
 
 
 # turn on Condor Client for compute nodes
