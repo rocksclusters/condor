@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.67  2010/10/28 22:26:10  phil
+    proper permissions on /etc/sudoers.
+
     Revision 1.66  2010/10/26 05:13:17  phil
     Need PasswordAuth Attribute in the database.
 
@@ -248,6 +251,7 @@ CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_PortHigh value="50000"
 /opt/rocks/bin/rocks add attr Condor_HostAllow value="+"
 /opt/rocks/bin/rocks add attr Condor_PasswordAuth value="no"
+/opt/rocks/bin/rocks add attr Condor_EnableMPI value="no"
 
 
 # turn on Condor Client for compute nodes
@@ -279,6 +283,11 @@ fi
 
 . /etc/profile.d/rocks-condor.sh
 /opt/rocks/bin/rocks report host condor config &hostname; | /opt/rocks/bin/rocks report script | /bin/sh
+</file>
+
+<!-- Give apache rights to cat pool password -->
+<file name="/etc/sudoers" mode="append" perms="0440">
+apache ALL=(ALL) NOPASSWD: /bin/cat /var/opt/condor/pool_password
 </file>
 
 </post>

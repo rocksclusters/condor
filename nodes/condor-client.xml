@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-client.xml,v $
+    Revision 1.50  2010/10/28 22:26:10  phil
+    proper permissions on /etc/sudoers.
+
     Revision 1.49  2010/10/26 04:24:22  phil
     missing closing eval tag
 
@@ -196,7 +199,7 @@ chkconfig --add ec2-condor-collector
 
 <post cond="Condor_PasswordAuth">
 <file name="/tmp/poolpassword">
-<eval>/usr/bin/sudo /bin/cat /var/opt/condor/pool_password | /usr/bin/uuencode --base64 /var/opt/condor/pool_password</eval>
+<eval>if [ -f /var/opt/condor/pool_password ]; then /usr/bin/sudo /bin/cat /var/opt/condor/pool_password | /usr/bin/uuencode --base64 /var/opt/condor/pool_password; fi</eval>
 </file>
 
 /usr/bin/uudecode  /tmp/poolpassword

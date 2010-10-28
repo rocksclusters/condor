@@ -15,6 +15,9 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.24  2010/10/28 22:26:10  phil
+	proper permissions on /etc/sudoers.
+	
 	Revision 1.23  2010/10/25 23:21:10  phil
 	Support pool password on Kickstart. Uses sudo to allow apache to cat the file.
 	
@@ -128,11 +131,6 @@ sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@
 /bin/mkdir -p /var/opt/condor/cred_dir
 
 chown -R 407.407 /var/opt/condor
-
-<!-- Give apache rights to cat pool password -->
-<file name="/etc/sudoers" mode="append">
-apache ALL=(ALL) NOPASSWD: /bin/cat /var/opt/condor/pool_password
-</file>
 
 </post>
 
