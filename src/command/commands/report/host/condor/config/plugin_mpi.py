@@ -1,4 +1,4 @@
-# $Id: plugin_mpi.py,v 1.2 2010/10/26 16:37:28 phil Exp $
+# $Id: plugin_mpi.py,v 1.3 2010/12/08 16:58:03 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,10 @@
 # @Copyright@
 #
 # $Log: plugin_mpi.py,v $
+# Revision 1.3  2010/12/08 16:58:03  phil
+# Add RANK parameter.
+# Update docs on MPI support.
+#
 # Revision 1.2  2010/10/26 16:37:28  phil
 # Fixes to really respect attributes.
 #
@@ -94,6 +98,7 @@ class Plugin(rocks.commands.Plugin):
 		kvstore['CONDOR_SSHD'] = '/usr/sbin/sshd'
 		kvstore['CONDOR_SSH_KEYGEN'] = '/usr/bin/ssh-keygen'
 		kvstore['START']        = 'True'
+		kvstore['RANK'] 	= 'Scheduler =?= $(DedicatedScheduler)'
 
 	def run(self, argv):
 		host, kvstore = argv

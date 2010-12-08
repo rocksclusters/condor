@@ -181,6 +181,21 @@ Define a New Condor Master:
 </para>
 </listitem>
 
+<listitem>
+<para>
+Enable MPI/Dedicated Scheduler:
+<computeroutput>rocks set attr Condor_EnableMPI true</computeroutput>. 
+</para>
+<para>
+Actively-running Condor
+daemons must be reconfigured for this attribute to take affect. 
+This can be achieved dynamically on compute and frontend appliances using
+<computeroutput>rocks sync host condor frontend compute</computeroutput>. 
+</para>
+<para> Reinstalled nodes
+will build the correct configuration.
+</para>
+</listitem>
 
 </itemizedlist>
 
@@ -241,7 +256,7 @@ view the file in location
 /opt/rocks/lib/python2.4/site-packages/rocks/commands/report/host/condor/config/plugin_sample.py
 </computeroutput>, which is reproduced here.
 <screen>
-# $Id: customizing.sgml,v 1.7 2010/10/26 16:44:00 phil Exp $
+# $Id: customizing.sgml,v 1.8 2010/12/08 16:58:03 phil Exp $
 import rocks.commands
 
 class Plugin(rocks.commands.Plugin):
