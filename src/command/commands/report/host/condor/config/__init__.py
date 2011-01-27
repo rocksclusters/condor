@@ -1,4 +1,4 @@
-#$Id: __init__.py,v 1.7 2010/10/26 16:37:28 phil Exp $
+#$Id: __init__.py,v 1.8 2011/01/27 23:28:01 phil Exp $
 # 
 # @Copyright@
 # 
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: __init__.py,v $
+# Revision 1.8  2011/01/27 23:28:01  phil
+# Support submission to EC2
+#
 # Revision 1.7  2010/10/26 16:37:28  phil
 # Fixes to really respect attributes.
 #
@@ -317,4 +320,4 @@ class Command(rocks.commands.HostArgumentProcessor,
 			self.runPlugins((host,self.dict))
 			self.writeConfigFile(self.dict, self.configLocal)
 
-		self.endOutput()
+		self.endOutput(padChar='')
