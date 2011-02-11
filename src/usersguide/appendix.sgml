@@ -1,5 +1,5 @@
 <!--
-$Id: appendix.sgml,v 1.1 2008/12/12 18:12:48 bruno Exp $
+$Id: appendix.sgml,v 1.2 2011/02/11 20:12:08 mjk Exp $
 
 Appendix for Copyright and License notices
 
@@ -7,6 +7,9 @@ Appendix for Copyright and License notices
 @Copyright@
 
 $Log: appendix.sgml,v $
+Revision 1.2  2011/02/11 20:12:08  mjk
+builds again
+
 Revision 1.1  2008/12/12 18:12:48  bruno
 make condor docs look like other rolls' docs
 
@@ -37,7 +40,7 @@ Revision 1.1  2006/09/14 23:54:35  mjk
 <appendix>
 <title>Third Party Copyrights and Licenses</title>
 
-&source_roll-copyright-disclaimer;
+&source-roll-copyright-disclaimer;
 
 <section><title>Condor</title>
 <para>

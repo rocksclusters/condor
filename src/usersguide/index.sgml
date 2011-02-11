@@ -1,10 +1,13 @@
 <!--
-$Id: index.sgml,v 1.4 2009/12/08 21:13:19 phil Exp $
+$Id: index.sgml,v 1.5 2011/02/11 20:12:08 mjk Exp $
 
 @Copyright@
 @Copyright@
 
 $Log: index.sgml,v $
+Revision 1.5  2011/02/11 20:12:08  mjk
+builds again
+
 Revision 1.4  2009/12/08 21:13:19  phil
 Add a customization section (in progress)
 
@@ -31,11 +34,11 @@ make condor docs look like other rolls' docs
 		</inlinemediaobject>
 	</subtitle>
 
-        <edition>Version &document_version;</edition>
-        <pubdate>&document_pubdate;</pubdate>
+        <edition>Version &document-version;</edition>
+        <pubdate>&document-pubdate;</pubdate>
         <copyright id="copyright" xreflabel="copyright">
-                <year>&document_year;</year>
-                <holder>&document_copyright;</holder>    
+                <year>&document-year;</year>
+                <holder>&document-copyright;</holder>    
         </copyright>
 
         <releaseinfo>
@@ -51,12 +54,12 @@ make condor docs look like other rolls' docs
 
 </bookinfo>
 
-&source_preface;
-&source_roll-overview;
-&source_installing;
-&source_using;
-&source_customizing;
-&source_appendix;
+&source-preface;
+&source-roll-overview;
+&source-installing;
+&source-using;
+&source-customizing;
+&source-appendix;
 
 </book>
 
