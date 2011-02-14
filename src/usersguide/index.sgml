@@ -1,10 +1,17 @@
 <!--
-$Id: index.sgml,v 1.5 2011/02/11 20:12:08 mjk Exp $
+$Id: index.sgml,v 1.6 2011/02/14 22:14:16 mjk Exp $
 
 @Copyright@
 @Copyright@
 
 $Log: index.sgml,v $
+Revision 1.6  2011/02/14 22:14:16  mjk
+- Build Env
+  - ROLLNAME defaults to ROLL
+  - Fixes for docbook
+- All userguides build again
+- All userguides are now NOARCH rpms
+
 Revision 1.5  2011/02/11 20:12:08  mjk
 builds again
 
@@ -24,7 +31,7 @@ make condor docs look like other rolls' docs
 <book>
 <bookinfo>
 
-	<title> Condor Roll: Users Guide </title>
+	<title> &roll-condor; Users Guide </title>
 
 	<subtitle>
 		<inlinemediaobject>
@@ -34,7 +41,7 @@ make condor docs look like other rolls' docs
 		</inlinemediaobject>
 	</subtitle>
 
-        <edition>Version &document-version;</edition>
+        <edition>&document-version;</edition>
         <pubdate>&document-pubdate;</pubdate>
         <copyright id="copyright" xreflabel="copyright">
                 <year>&document-year;</year>
@@ -47,7 +54,7 @@ make condor docs look like other rolls' docs
 
         <legalnotice>
                 <para>
-                This document is subject to the Rocks License 
+                This document is subject to the &rocks; License 
                 (see <xref linkend="rocks-copyright">).
                 </para>
         </legalnotice>
