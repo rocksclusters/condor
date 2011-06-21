@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.27 2010/10/24 04:05:21 bruno Exp $
+# $Id: Makefile,v 1.28 2011/06/21 22:19:11 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.28  2011/06/21 22:19:11  phil
+# Update condor to version 7.6.1
+#
 # Revision 1.27  2010/10/24 04:05:21  bruno
 # can't have white space after a '\', *phil*!
 #
@@ -167,7 +170,6 @@
 
 
 PKGROOT		= /opt/condor
-SCRIPT		= ./CondorConf
 REDHAT.ROOT	= $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -181,7 +183,7 @@ X86_64	=
 endif
 
 NAME = condor
-EXT  = linux-x86$(X86_64)-rhel5-dynamic
+EXT  = x86$(X86_64)_rhap_5-stripped
 TARBALL = $(NAME)-$(VERSION)-$(EXT)
 
 version.mk: version.mk.in
@@ -191,14 +193,13 @@ build::
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(TAR) xzvf $(TARBALL).tar.gz -C $(ROOT)
-	( 	cd $(ROOT)/$(NAME)-$(VERSION); 	\
+	( 	cd $(ROOT)/$(NAME)-$(VERSION)-$(EXT); 	\
 		mv * $(ROOT)/$(PKGROOT);	\
 		cd ..; 				\
-		rmdir $(NAME)-$(VERSION) 	\
+		rmdir $(NAME)-$(VERSION)-$(EXT)	\
 	)
-	install -m755 $(SCRIPT) $(ROOT)/$(PKGROOT)/sbin
 
 clean::
-	rm -rf $(NAME)-$(VERSION)
+	rm -rf $(NAME)-$(VERSION)-$(EXT)
 	rm -f version.mk
 
