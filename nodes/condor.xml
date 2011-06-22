@@ -15,6 +15,10 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.25  2011/06/22 00:20:12  phil
+	Add condor user to every node that has condor installed.
+	411 now filters uids less than 500
+	
 	Revision 1.24  2010/10/28 22:26:10  phil
 	proper permissions on /etc/sudoers.
 	
@@ -117,6 +121,8 @@ condor_negotiator  9614/tcp     # Condor daemon
 condor_collector   9618/tcp     # Condor daemon
 </file>
 
+### Create the Condor User
+/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
 /sbin/chkconfig --add rocks-condor
 
 <file name="/opt/condor/etc/condor_config" vars="expanded">

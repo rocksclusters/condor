@@ -15,6 +15,10 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.68  2011/06/22 00:20:12  phil
+    Add condor user to every node that has condor installed.
+    411 now filters uids less than 500
+
     Revision 1.67  2010/10/28 22:26:10  phil
     proper permissions on /etc/sudoers.
 
@@ -238,9 +242,6 @@
     <package>rocks-condor-command</package>
 
 <post>
-
-### Create the Condor User
-/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
 
 ###  Put the CondorMaster into the database
 CMaster=&Kickstart_PublicHostname;
