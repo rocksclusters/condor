@@ -1,12 +1,12 @@
-# $Id: plugin_submit_ec2.py,v 1.1 2011/01/27 23:28:01 phil Exp $
+# $Id: plugin_submit_ec2.py,v 1.2 2011/07/23 02:30:55 phil Exp $
 # 
 # @Copyright@
 # 
 # 				Rocks(r)
 # 		         www.rocksclusters.org
-# 		       version 5.2 (Chimichanga)
+# 		         version 5.4.3 (Viper)
 # 
-# Copyright (c) 2000 - 2009 The Regents of the University of California.
+# Copyright (c) 2000 - 2011 The Regents of the University of California.
 # All rights reserved.	
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
 # features or use of this software must display the following acknowledgement: 
 # 
 # 	"This product includes software developed by the Rocks(r)
-# 	Cluster Group at the San Diego Supercomputer Center at the
+# 	Development Team at the San Diego Supercomputer Center at the
 # 	University of California, San Diego and its contributors."
 # 
 # 4. Except as permitted for the purposes of acknowledgment in paragraph 3,
@@ -54,6 +54,9 @@
 # @Copyright@
 #
 # $Log: plugin_submit_ec2.py,v $
+# Revision 1.2  2011/07/23 02:30:55  phil
+# Viper Copyright
+#
 # Revision 1.1  2011/01/27 23:28:01  phil
 # Support submission to EC2
 #

@@ -9,14 +9,17 @@
 
 
 	<copyright>
-	Copyright (c) 2000 - 2010 The Regents of the University of California.
-	All rights reserved. Rocks(r) v5.4 www.rocksclusters.org
+	Copyright (c) 2000 - 2011 The Regents of the University of California.
+	All rights reserved. Rocks(r) v5.4.3 www.rocksclusters.org
 	
 	</copyright>
 
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.23  2011/07/23 02:30:55  phil
+	Viper Copyright
+	
 	Revision 1.22  2010/10/22 20:43:54  phil
 	Updated to 7.4.4 (released Oct 18, 2010).
 	Keep 7.4.3 Tarballs in tree.
