@@ -15,6 +15,9 @@
 
     <changelog>
     $Log: condor-server.xml,v $
+    Revision 1.70  2011/08/04 20:47:41  phil
+    configure a rocks login appliance to submit jobs to condor
+
     Revision 1.69  2011/07/23 02:30:55  phil
     Viper Copyright
 
@@ -258,11 +261,14 @@ CMaster=&Kickstart_PublicHostname;
 /opt/rocks/bin/rocks add attr Condor_EnableMPI value="no"
 
 
-# turn on Condor Client for compute nodes
+# turn on Condor Client for compute nodes and login nodes
 /opt/rocks/bin/rocks add appliance attr compute Condor_Client value=true
-# modify set of daemons running on master 
+/opt/rocks/bin/rocks add appliance attr login Condor_Client value=true
+# modify set of daemons running on master and login nodes 
 /opt/rocks/bin/rocks add appliance attr frontend Condor_Daemons value="MASTER, SCHEDD, COLLECTOR, NEGOTIATOR"
-# bind the network to the public interface 
+/opt/rocks/bin/rocks add appliance attr login Condor_Daemons value="MASTER, SCHEDD"
+
+# bind the network to the public interface on frontends.` 
 /opt/rocks/bin/rocks add appliance attr frontend Condor_Network value=public
 
 <file name="/etc/rc.d/rocksconfig.d/post-90-condor-server" perms="0755">
