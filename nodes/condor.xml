@@ -15,6 +15,10 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.27  2011/08/06 14:53:54  phil
+	a couple of perl modules so that OS roll contains these packages for the
+	on-the-fly installation of condor roll
+	
 	Revision 1.26  2011/07/23 02:30:55  phil
 	Viper Copyright
 	
@@ -112,6 +116,10 @@
 	<package>roll-condor-usersguide</package>
 	<package>compat-libstdc++-33</package>
 	<package>automake16</package>
+	<package>automake16</package>
+	<package>perl-DateManip</package>
+	<package>perl-XML-Simple</package>
+
 
 
 <post>
