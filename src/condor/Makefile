@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.29 2011/07/23 02:30:56 phil Exp $
+# $Id: Makefile,v 1.30 2012/04/27 01:17:46 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,10 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.30  2012/04/27 01:17:46  phil
+# Update Condor to latest Release (7.6.6).
+# There is no i386 binary for CentOS6
+#
 # Revision 1.29  2011/07/23 02:30:56  phil
 # Viper Copyright
 #
@@ -186,7 +190,12 @@ X86_64	=
 endif
 
 NAME = condor
+ifeq ($(VERSION.MAJOR),5)
 EXT  = x86$(X86_64)_rhap_5-stripped
+else
+EXT  = x86$(X86_64)_rhap_6.1-updated-stripped
+endif
+
 TARBALL = $(NAME)-$(VERSION)-$(EXT)
 
 version.mk: version.mk.in
