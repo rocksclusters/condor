@@ -1,4 +1,4 @@
-# $Id: rocks-condor.sh,v 1.12 2011/07/23 02:30:57 phil Exp $
+# $Id: rocks-condor.sh,v 1.13 2012/05/01 03:43:38 phil Exp $
 #
 # Using Condor on a Rocks cluster
 #
@@ -56,6 +56,9 @@
 # @Copyright@
 #
 # $Log: rocks-condor.sh,v $
+# Revision 1.13  2012/05/01 03:43:38  phil
+# Only add to path if not already there.
+#
 # Revision 1.12  2011/07/23 02:30:57  phil
 # Viper Copyright
 #
@@ -103,11 +106,16 @@ export CONDOR_IDS=$CUID.$CUID
 BIN=$CONDOR_ROOT/bin
 SBIN=$CONDOR_ROOT/sbin
 
-if [ -d $BIN ]; then
-        export PATH=$PATH:$BIN
+if [ -d ${BIN} ]; then
+	if ! echo ${PATH} | /bin/grep -q ${BIN} ; then
+        	export PATH=${PATH}:${BIN}
+	fi
 fi
 
-if [ -d $SBIN ]; then
-        export PATH=$PATH:$SBIN
+if [ -d ${SBIN} ]; then
+	if ! echo ${PATH} | /bin/grep -q ${SBIN} ; then
+        	export PATH=${PATH}:${SBIN}
+	fi
 fi
+
 

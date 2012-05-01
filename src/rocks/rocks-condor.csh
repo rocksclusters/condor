@@ -1,4 +1,4 @@
-# $Id: rocks-condor.csh,v 1.12 2011/07/23 02:30:57 phil Exp $
+# $Id: rocks-condor.csh,v 1.13 2012/05/01 03:43:38 phil Exp $
 #
 # Using Condor on a Rocks cluster
 #
@@ -56,6 +56,9 @@
 # @Copyright@
 #
 # $Log: rocks-condor.csh,v $
+# Revision 1.13  2012/05/01 03:43:38  phil
+# Only add to path if not already there.
+#
 # Revision 1.12  2011/07/23 02:30:57  phil
 # Viper Copyright
 #
@@ -105,10 +108,15 @@ set BIN=${CONDOR_ROOT}/bin
 set SBIN=${CONDOR_ROOT}/sbin
 
 if ( -d ${BIN}  ) then
-        setenv PATH "${PATH}:${BIN}"
+	echo ${PATH} | /bin/grep -q ${BIN} 
+	if ( $? != 0) then
+        	setenv PATH "${PATH}:${BIN}"
+	endif
 endif
 
-if ( -d ${SBIN} ) then
-        setenv PATH "${PATH}:${SBIN}"
+if ( -d ${SBIN}  ) then
+	echo ${PATH} | /bin/grep -q ${SBIN} 
+	if ( $? != 0) then
+        	setenv PATH "${PATH}:${SBIN}"
+	endif
 endif
-
