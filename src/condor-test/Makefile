@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.27 2011/07/23 02:30:56 phil Exp $
+# $Id: Makefile,v 1.28 2012/05/03 15:43:36 phil Exp $
 #
 # @Copyright@
 # 
@@ -55,6 +55,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.28  2012/05/03 15:43:36  phil
+# bug fix. Actually install the correct simple tests
+#
 # Revision 1.27  2011/07/23 02:30:56  phil
 # Viper Copyright
 #
@@ -144,12 +147,17 @@
 
 PKGROOT		= /opt/condor
 REDHAT.ROOT	= $(PWD)/../../
+SCRIPTS		= hello.sh
+QSUBS		= hello.sub
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 
 
 build:
+	echo "No build required. Example Condor Scripts"
+install::
 	mkdir -p $(ROOT)/$(PKGROOT)/tests
-	cp hello.* $(ROOT)/$(PKGROOT)/tests
+	$(INSTALL) -m 775 $(SCRIPTS) $(ROOT)/$(PKGROOT)/tests
+	$(INSTALL) -m 664 $(QSUBS) $(ROOT)/$(PKGROOT)/tests
 
