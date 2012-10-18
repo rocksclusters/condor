@@ -1,5 +1,5 @@
 # 
-# $Id: Makefile,v 1.31 2012/05/06 05:48:55 phil Exp $
+# $Id: Makefile,v 1.32 2012/10/18 19:03:49 phil Exp $
 #
 # @Copyright@
 # 
@@ -56,6 +56,9 @@
 # @Copyright@
 #
 # $Log: Makefile,v $
+# Revision 1.32  2012/10/18 19:03:49  phil
+# Update version to 7.8.4
+#
 # Revision 1.31  2012/05/06 05:48:55  phil
 # Copyright Storm for Mamba
 #
@@ -195,9 +198,9 @@ endif
 
 NAME = condor
 ifeq ($(VERSION.MAJOR),5)
-EXT  = x86$(X86_64)_rhap_5-stripped
+EXT  = x86$(X86_64)_rhap_5.8-stripped
 else
-EXT  = x86$(X86_64)_rhap_6.1-updated-stripped
+EXT  = x86$(X86_64)_rhap_6.3-stripped
 endif
 
 TARBALL = $(NAME)-$(VERSION)-$(EXT)
@@ -214,6 +217,8 @@ install::
 		cd ..; 				\
 		rmdir $(NAME)-$(VERSION)-$(EXT)	\
 	)
+	find $(ROOT)/$(PKGROOT) -name '*so.[0-9]*' -exec prelink --undo {} \; -print
+	find $(ROOT)/$(PKGROOT) -name 'libssl3.so' -exec prelink --undo {} \; -print
 
 clean::
 	rm -rf $(NAME)-$(VERSION)-$(EXT)
