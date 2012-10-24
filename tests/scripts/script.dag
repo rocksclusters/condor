@@ -1,0 +1,19 @@
+####################
+#
+# run some simple job on condor
+#
+####################
+
+universe   = VANILLA
+executable = job.sh
+output     = log.out
+error      = log.error
+log        = log.log
+
+#file system no shared file system
+#input      =
+
+#initialdir = run_1
+queue
+
+
