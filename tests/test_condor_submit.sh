@@ -32,6 +32,7 @@ while [ true ]; do
 	fi
 done
 
+echo submitting condor job
 cp -p scripts/job.sh scripts/script.dag /home/$TESTUSER/
 chown $TESTUSER /home/$TESTUSER/job.sh /home/$TESTUSER/script.dag
 su - $TESTUSER -c "condor_submit script.dag " || reportError "Unable to run condor_submit"
