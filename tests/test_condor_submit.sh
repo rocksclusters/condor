@@ -1,12 +1,8 @@
 #!/bin/bash
 #
-# Test vm machines
+# Test Condor submit
 #
-# prerequisite 2 vm-container already up and running
-#
-# no virtual compute already installed
-#
-# maxrun time 2 hours
+# maxrun time 2 minutes
 
 function reportError {
 	echo $1
@@ -25,11 +21,16 @@ function Pause {
 
 TESTUSER=testcondor
 
-#echo creating user test
-#useradd -m $TESTUSER
-#rocks sync users
-#
-#
+echo creating user test
+useradd -m $TESTUSER
+rocks sync users
+
+while [ true ]; do
+	sleep 5
+	if [ -d /home/$TESTUSER/ ];then
+		break
+	fi
+done
 
 cp -p scripts/job.sh scripts/script.dag /home/$TESTUSER/
 chown $TESTUSER /home/$TESTUSER/job.sh /home/$TESTUSER/script.dag
