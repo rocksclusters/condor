@@ -1,13 +1,13 @@
-# $Id: plugin_login_appliance.py,v 1.3 2012/09/04 22:21:50 clem Exp $
+# $Id: plugin_login_appliance.py,v 1.4 2012/11/27 00:48:55 phil Exp $
 # 
 # @Copyright@
 # 
 # 				Rocks(r)
 # 		         www.rocksclusters.org
-# 		         version 5.5 (Mamba)
-# 		         version 6.0 (Mamba)
+# 		         version 5.6 (Emerald Boa)
+# 		         version 6.1 (Emerald Boa)
 # 
-# Copyright (c) 2000 - 2012 The Regents of the University of California.
+# Copyright (c) 2000 - 2013 The Regents of the University of California.
 # All rights reserved.	
 # 
 # Redistribution and use in source and binary forms, with or without
