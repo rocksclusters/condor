@@ -15,6 +15,9 @@
 
 	<changelog>
 	$Log: condor.xml,v $
+	Revision 1.29  2012/12/15 07:04:09  phil
+	Make a condor group with gid 407. create the condor user with this group.
+	
 	Revision 1.28  2012/05/06 05:48:53  phil
 	Copyright Storm for Mamba
 	
@@ -136,7 +139,8 @@ condor_collector   9618/tcp     # Condor daemon
 </file>
 
 ### Create the Condor User
-/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
+/usr/sbin/groupadd  -g 407 condor 
+/usr/sbin/useradd -u 407 -g 407 -c "Condor Daemon Account" condor
 /sbin/chkconfig --add rocks-condor
 
 <file name="/opt/condor/etc/condor_config" vars="expanded">
