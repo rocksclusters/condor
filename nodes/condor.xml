@@ -4,7 +4,7 @@
 
 
 	<description>
-	The Condor Roll.
+	The HTCondor Roll.
 	</description>
 
 	<copyright>
@@ -117,7 +117,7 @@
 	
 	</changelog>
 
-	<package>condor</package>
+	<package>htcondor</package>
 	<package>rocks-condor</package>
 	<package>roll-condor-usersguide</package>
 	<package>compat-libstdc++-33</package>

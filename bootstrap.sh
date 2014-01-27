@@ -120,11 +120,11 @@
 
 . $ROLLSROOT/etc/bootstrap-functions.sh
 
-compile_and_install condor
+compile_and_install htcondor
 compile rocks
 install rocks-condor
 
-install_os_packages condor
+install_os_packages htcondor
 
 # Make sure we have the condor account
 # will complain if condor already exists, can ignore

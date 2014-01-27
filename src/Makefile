@@ -113,7 +113,7 @@
 #
 
 #SRCDIRS = `find . -type d -maxdepth 1 -not -name CVS -not -name .`
-SRCDIRS = condor condor-test rocks usersguide command
+SRCDIRS = htcondor condor-test rocks usersguide command
 
 default:	rpm
 
