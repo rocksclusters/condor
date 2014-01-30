@@ -133,8 +133,3 @@ install_os_packages htcondor
 # Get the Condor Environment
 . /etc/profile.d/rocks-condor.sh
 
-# Put a basic condor_config in place 
-# this will complain about /var/opt/condor/log not existing on a clean machine. Can Ignore.
-if [ ! -f /opt/condor/etc/condor_config ]; then
-     /opt/condor/sbin/CondorConf  -n compute -t e -m localhost
-fi
