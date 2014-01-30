@@ -1,2 +1,0 @@
-NAME = condor
-RPM.EXTRAS = %define __os_install_post %{nil}

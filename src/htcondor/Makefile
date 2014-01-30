@@ -199,14 +199,16 @@ else
 X86_64	=
 endif
 
-NAME = condor
+
+TARNAME = condor
+NAME = ht$(TARNAME)
 ifeq ($(VERSION.MAJOR),5)
 EXT  = x86$(X86_64)_rhap_5.8-stripped
 else
-EXT  = x86$(X86_64)_rhap_6.3-stripped
+EXT  = x86$(X86_64)_RedHat6-stripped
 endif
 
-TARBALL = $(NAME)-$(VERSION)-$(EXT)
+TARBALL = $(TARNAME)-$(VERSION)-$(EXT)
 
 version.mk: version.mk.in
 	/bin/cat version.mk.in ../version.mk > version.mk
@@ -215,15 +217,15 @@ build::
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	$(TAR) xzvf $(TARBALL).tar.gz -C $(ROOT)
-	( 	cd $(ROOT)/$(NAME)-$(VERSION)-$(EXT); 	\
+	( 	cd $(ROOT)/$(TARNAME)-$(VERSION)-$(EXT); 	\
 		mv * $(ROOT)/$(PKGROOT);	\
 		cd ..; 				\
-		rmdir $(NAME)-$(VERSION)-$(EXT)	\
+		rmdir $(TARNAME)-$(VERSION)-$(EXT)	\
 	)
 	find $(ROOT)/$(PKGROOT) -name '*so.[0-9]*' -exec prelink --undo {} \; -print
 	find $(ROOT)/$(PKGROOT) -name 'libssl3.so' -exec prelink --undo {} \; -print
 
 clean::
-	rm -rf $(NAME)-$(VERSION)-$(EXT)
+	rm -rf $(TARNAME)-$(VERSION)-$(EXT)
 	rm -f version.mk
 
