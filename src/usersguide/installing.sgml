@@ -64,7 +64,7 @@ $ su - root
 # rocks add roll &document-rollname;.iso
 # rocks enable roll &document-rollname;
 # rocks create distro
-# rocks run roll condor | bash
+# rocks run roll &document-rollname; | bash
 # shutdown -r now 
 </screen>
 
