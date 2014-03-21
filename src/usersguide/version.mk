@@ -1,3 +1,4 @@
+ROLL = htcondor
 NAME    = roll-$(ROLL)-usersguide
 RELEASE = 0
 MANUALRELEASE = V8_0_6

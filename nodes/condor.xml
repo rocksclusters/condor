@@ -119,7 +119,7 @@
 
 	<package>htcondor</package>
 	<package>rocks-condor</package>
-	<package>roll-condor-usersguide</package>
+	<package>roll-htcondor-usersguide</package>
 	<package>compat-libstdc++-33</package>
 	<package>automake16</package>
 	<package>automake16</package>
