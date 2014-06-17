@@ -1,0 +1,48 @@
+
+# build directory
+BUILD/
+RPMS/
+SOURCES/
+SPECS/
+
+
+*.pyc
+
+_os
+_arch
+_distribution
+
+# ignore version.mk
+rocks-version.mk
+rocks-version-common.mk
+
+# ignore python.mk
+python.mk
+
+# ignore Rules files
+Rules-install.mk
+Rules-linux-centos.mk
+Rules-linux.mk
+Rules-rcfiles.mk
+Rules-scripts.mk
+Rules.mk
+Rolls.mk
+
+# --- BEGIN --- binaries files
+src/condor-demo-ec2/2HTY_A-demo.tar.gz
+src/condor-demo-ec2/NCIdiversity.tar.gz
+src/htcondor/condor-8.0.5-x86_64_RedHat6-stripped.tar.gz
+src/htcondor/condor-8.0.5-x86_RedHat6-stripped.tar.gz
+src/htcondor/condor-8.0.6-x86_64_RedHat6-stripped.tar.gz
+src/htcondor/condor-8.0.6-x86_RedHat6-stripped.tar.gz
+src/job-manager/globus_gram_job_manager_setup_condor-1.3-src.tar.gz
+src/job-manager/globus_gram_reporter-2.0-src.tar.gz
+src/job-manager/globus_gram_reporter_setup_condor-1.0-src.tar.gz
+src/usersguide/condor-V7_4_4-Manual.tar.gz
+src/usersguide/condor-V7_6_2-Manual.tar.gz
+src/usersguide/condor-V7_6_6-Manual.tar.gz
+src/usersguide/condor-V7_8_4-Manual.tar.gz
+src/usersguide/condor-V7_8_5-Manual.tar.gz
+src/usersguide/condor-V8_0_5-Manual.tar.gz
+src/usersguide/condor-V8_0_6-Manual.tar.gz
+# --- END ---
