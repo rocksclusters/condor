@@ -161,6 +161,9 @@ QSUBS		= hello.sub
 include Rules.mk
 
 
+version.mk: version.mk.in ../../condor.version.mk
+	/bin/cat ../../condor.version.mk  version.mk.in > version.mk
+
 build:
 	echo "No build required. Example Condor Scripts"
 install::
@@ -168,3 +171,5 @@ install::
 	$(INSTALL) -m 775 $(SCRIPTS) $(ROOT)/$(PKGROOT)/tests
 	$(INSTALL) -m 664 $(QSUBS) $(ROOT)/$(PKGROOT)/tests
 
+clean::
+	- /bin/rm version.mk

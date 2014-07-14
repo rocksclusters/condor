@@ -129,14 +129,20 @@
 
 
 <post>
+/bin/grep -q condor /etc/man.config
+if [ $? -ne 0 ]; then
 <file name="/etc/man.config" mode="append">
 MANPATH /opt/condor/man
 </file>
+fi
 
+/bin/grep -q condor_negotiator /etc/services
+if [ $? -ne 0 ]; then
 <file name="/etc/services" mode="append">
 condor_negotiator  9614/tcp     # Condor daemon 
 condor_collector   9618/tcp     # Condor daemon
 </file>
+fi
 
 ### Create the Condor User
 /usr/sbin/groupadd  -g 407 condor 
@@ -145,7 +151,7 @@ condor_collector   9618/tcp     # Condor daemon
 
 <file name="/opt/condor/etc/condor_config" vars="expanded">
 `/bin/cat /opt/condor/etc/examples/condor_config.generic | \
-sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@LOCAL_CONFIG_FILE = /opt/condor/etc/condor_config.local@'`
+sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@LOCAL_CONFIG_FILE = /opt/condor/etc/condor_config.local@' -e 's@^LOCAL_CONFIG_DIR.*@LOCAL_CONFIG_DIR = /opt/condor/etc/config.d@'`
 </file>
 
 /bin/mkdir -p /var/opt/condor

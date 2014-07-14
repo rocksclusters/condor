@@ -111,16 +111,12 @@ class Command(rocks.commands.HostArgumentProcessor,
 	One host name.
 	</arg>
 
-	<param type='string' name='type'>
-	How this node will function - [Manager, Worker] - Default: Worker
-	</param>
-
 	<param type='string' name='UIDdomain'>
 	Override UIDdomain of the Rocks Kickstart_PrivateDNSDomain attribute
 	</param>
 
 	<param type='string' name='ConfigFile'>
-	Defaults to: /opt/condor/etc/condor_config.local
+	Defaults to: $(RELEASE_DIR)/etc/config.d/000Rocks.conf
 	</param>
 
 	<example cmd='report host condor config compute-0-0 type=Worker'>
@@ -225,7 +221,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.user = 'condor'
 		self.releaseDir = '/opt/condor'
 		self.configMain = self.releaseDir + '/etc/condor_config'
-		self.configLocal = self.releaseDir + '/etc/condor_config.local' 
+		self.configLocal = self.releaseDir + self.ConfigFile
 		self.confTemplate = self.releaseDir + '/etc/examples/condor_config.generic'
 		self.getUID()
 
@@ -318,7 +314,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 	def run(self, params, args):
 
 		self.initializeDictionary()
-		self.type, self.UIDdomain, self.ConfigFile = self.fillParams([('type','Worker'),('UIDdomain',),('ConfigFile','/opt/condor/etc/condor_config.local') ])
+		self.UIDdomain, self.ConfigFile = self.fillParams([('UIDdomain',),('ConfigFile','/etc/config.d/000Rocks.conf') ])
 		self.defineInternalStateVars()
 		self.beginOutput()
 

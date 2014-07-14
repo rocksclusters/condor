@@ -110,6 +110,10 @@ include Rules.mk
 -include $(ROCKSROOT)/etc/python.mk
 include python.mk
 
+
+
+version.mk: version.mk.in ../../condor.version.mk
+	/bin/cat ../../condor.version.mk  version.mk.in > version.mk
 build:
 
 install::
@@ -119,4 +123,5 @@ install::
 	install -m544 $(INITFILES) $(ROOT)/etc/rc.d/init.d
 
 clean::
-	rm -rf $(NAME)-$(VERSION)
+	- rm -rf $(NAME)-$(VERSION)
+	- rm -f version.mk 

@@ -1,14 +1,11 @@
-# --------------------------------------------------- -*- Makefile -*- --
-# $Id: Makefile,v 1.9 2012/11/27 00:48:54 phil Exp $
-#
+# 
 # @Copyright@
 # 
 # 				Rocks(r)
 # 		         www.rocksclusters.org
-# 		         version 5.6 (Emerald Boa)
-# 		         version 6.1 (Emerald Boa)
+# 		       version 6.1.1 (Sand Boa)
 # 
-# Copyright (c) 2000 - 2013 The Regents of the University of California.
+# Copyright (c) 2000 - 2014 The Regents of the University of California.
 # All rights reserved.	
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -55,61 +52,25 @@
 # 
 # @Copyright@
 #
-# $Log: Makefile,v $
-# Revision 1.9  2012/11/27 00:48:54  phil
-# Copyright Storm for Emerald Boa
-#
-# Revision 1.8  2012/05/06 05:48:53  phil
-# Copyright Storm for Mamba
-#
-# Revision 1.7  2011/07/23 02:30:55  phil
-# Viper Copyright
-#
-# Revision 1.6  2010/09/07 23:53:12  bruno
-# star power for gb
-#
-# Revision 1.5  2009/05/01 19:07:13  mjk
-# chimi con queso
-#
-# Revision 1.4  2008/12/10 21:36:04  bruno
-# - condor roll is now buildable outside rocks source tree
-#
-# - updated bits to v7.0.5
-#
-# Revision 1.3  2008/10/18 00:56:06  mjk
-# copyright 5.1
-#
-# Revision 1.2  2008/03/06 23:41:49  mjk
-# copyright storm on
-#
-# Revision 1.1  2007/07/11 21:09:41  phil
-# Add rocks sync condor command.
-# Read config variables from database on each condor sync.
 #
 
-PKGROOT		= /opt/rocks
-REDHAT.ROOT     = $(CURDIR)/../../
+import rocks.commands
 
--include $(ROCKSROOT)/etc/Rules.mk
-include Rules.mk
-	
+class Plugin(rocks.commands.Plugin):
+	"""Make sure that the condor_config.local file exists and is empty"""
 
-version.mk: version.mk.in ../../condor.version.mk
-	/bin/cat ../../condor.version.mk  version.mk.in > version.mk
+	def provides(self):
+		return 'condor-config-local'
 
-build:
 
-install::
-	mkdir -p $(ROOT)/$(PY.ROCKS)/rocks/commands
-	(								\
-		cd commands;						\
-		find . -name "*.py" | 					\
-			cpio -pduv $(ROOT)/$(PY.ROCKS)/rocks/commands;	\
-	)
-	find $(ROOT)/$(PY.ROCKS)/rocks/commands -name "*.py" | awk	\
-		'{ print "\nRollName = \"$(ROLL)\"" >> $$1; }'  
-	find $(ROOT) -type d -exec chmod a+rx {} \;
+	def writeConfigFile(self, configFile):
+		self.owner.addText('<file name="%s">' % (configFile))
+		self.owner.addText('\n')
+		self.owner.addText('## Created by rocks report host condor config ##\n')
+		self.owner.addText('## place local configuration changes in config.d ##\n')
+		self.owner.addText('</file>\n')
 
-clean::
-	- rm -f $(SCRIPTS)
-	- rm version.mk
+	def run(self, argv):
+		host, kvstore = argv
+		releaseDir=kvstore['RELEASE_DIR']
+		self.writeConfigFile(releaseDir + "/etc/condor_config.local")	

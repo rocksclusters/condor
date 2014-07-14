@@ -210,8 +210,9 @@ endif
 
 TARBALL = $(TARNAME)-$(VERSION)-$(EXT)
 
-version.mk: version.mk.in
-	/bin/cat version.mk.in ../version.mk > version.mk
+version.mk: version.mk.in ../../condor.version.mk
+	/bin/cat ../../condor.version.mk  version.mk.in > version.mk
+
 build::
 
 install::
@@ -222,10 +223,11 @@ install::
 		cd ..; 				\
 		rmdir $(TARNAME)-$(VERSION)-$(EXT)	\
 	)
+	mkdir -p $(ROOT)/$(PKGROOT)/etc/config.d
 	find $(ROOT)/$(PKGROOT) -name '*so.[0-9]*' -exec prelink --undo {} \; -print
 	find $(ROOT)/$(PKGROOT) -name 'libssl3.so' -exec prelink --undo {} \; -print
 
 clean::
-	rm -rf $(TARNAME)-$(VERSION)-$(EXT)
-	rm -f version.mk
+	- rm -rf $(TARNAME)-$(VERSION)-$(EXT)
+	- rm -f version.mk
 

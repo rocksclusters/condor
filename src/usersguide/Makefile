@@ -95,6 +95,9 @@ html: predoc
 pdf: predoc
 	jw --backend pdf --dsl $(PWD)/rocks.dsl#print index.sgml
 
+version.mk: version.mk.in ../../condor.version.mk
+	/bin/cat ../../condor.version.mk  version.mk.in > version.mk
+
 build: html pdf
 
 install:: build
@@ -114,4 +117,5 @@ install:: build
 clean::
 	rm -f *.html
 	rm -f index.pdf
+	- rm -f version.mk 
 
