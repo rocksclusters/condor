@@ -190,7 +190,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 		if self.dict['UID_DOMAIN'] is None:
 			self.dict['UID_DOMAIN'] =  \
 				self.db.getHostAttr('localhost', \
-                                'Kickstart_PrivateDNSDomain')
+                                'Kickstart_PublicHostname')
 
 	def fillFromDerived(self):
 		## Get the Condor User ID, Group ID
