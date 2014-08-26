@@ -1,2 +1,2 @@
-VERSION		 = 8.2.0
+VERSION		 = 8.2.2
 RELEASE		 = 1
