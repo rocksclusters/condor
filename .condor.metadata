@@ -1,4 +1,4 @@
 aca9ccdc8db9ad79994ccaf0e97a8f1f56236822  src/condor-demo-ec2/2HTY_A-demo.tar.gz
 0a3ed2fbb3ae6646dbdd1bd5e4723b3eafbb336f  src/condor-demo-ec2/NCIdiversity.tar.gz
-4cebd0eb376af66d725b4e677817a3ff34bfc9d0  src/htcondor/condor-8.2.4-x86_64_RedHat6-stripped.tar.gz
-a4cb1f0865fe5eb97e9177c42c697a7859f99183  src/usersguide/condor-V8_2_4-Manual.tar.gz
+3822ae5b0fbaa37c0a7959c5d4a12104ac467bfe  src/htcondor/condor-8.2.6-x86_64_RedHat6-stripped.tar.gz
+5e3a6d9c581b050197f75cfad5025e454150913f  src/usersguide/condor-V8_2_6-Manual.tar.gz

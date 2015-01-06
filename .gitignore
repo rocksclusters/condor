@@ -34,8 +34,10 @@ src/condor-demo-ec2/NCIdiversity.tar.gz
 src/htcondor/condor-8.2.1-x86_64_RedHat6-stripped.tar.gz
 src/htcondor/condor-8.2.2-x86_64_RedHat6-stripped.tar.gz
 src/htcondor/condor-8.2.4-x86_64_RedHat6-stripped.tar.gz
+src/htcondor/condor-8.2.6-x86_64_RedHat6-stripped.tar.gz
 
 src/usersguide/condor-V8_2_1-Manual.tar.gz
 src/usersguide/condor-V8_2_2-Manual.tar.gz
 src/usersguide/condor-V8_2_4-Manual.tar.gz
+src/usersguide/condor-V8_2_6-Manual.tar.gz
 # --- END ---
