@@ -161,7 +161,7 @@ multiples files), the last
 one read is the value of the configuration variable.  
 One can dump all of the current configuration values on a running 
 Condor pool using the command.
-<computeroutput>condor_config_val --dump</computeroutput>. 
+<computeroutput>condor_config_val -dump</computeroutput>. 
 The configuration directory itself, is located in 
 <computeroutput>/opt/condor/etc/config.d</computeroutput>. Within that directory, Rocks creates two 
 configuration files
