@@ -161,7 +161,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['RANK']                = None
 		self.dict['RELEASE_DIR']         = '/opt/condor'
 		self.dict['START']               = 'True'
-		self.dict['STARTD_EXPRS']        = '$(STARTD_EXPRS)'
+		self.dict['STARTD_ATTRS']        = '$(STARTD_ATTRS)'
 		self.dict['SUSPEND']             = 'False'
 		self.dict['UID_DOMAIN']          =  None
 		self.dict['UPDATE_COLLECTOR_WITH_TCP']  = 'True'

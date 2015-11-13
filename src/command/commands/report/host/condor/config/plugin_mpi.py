@@ -103,7 +103,7 @@ class Plugin(rocks.commands.Plugin):
 		cm_fqdn = self.db.getHostAttr(host, 'Condor_Master')
 		kvstore['DedicatedScheduler']  = '"DedicatedScheduler@%s"' % cm_fqdn
 		kvstore['MPI_CONDOR_RSH_PATH'] = '$(LIBEXEC)'
-		kvstore['STARTD_EXPRS']        = '$(STARTD_EXPRS), DedicatedScheduler'
+		kvstore['STARTD_ATTRS']        = '$(STARTD_ATTRS), DedicatedScheduler'
 		kvstore['CONDOR_SSHD'] = '/usr/sbin/sshd'
 		kvstore['CONDOR_SSH_KEYGEN'] = '/usr/bin/ssh-keygen'
 		kvstore['START']        = 'True'
