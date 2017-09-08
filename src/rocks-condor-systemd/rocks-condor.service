@@ -3,8 +3,10 @@ Description=HTCondor Services
 
 [Service]
 Type=forking
-ExecStartPre=find /etc/rc.d/rocksconfig.d -name 'post-90-condor-*' -exec {} \; 
+Environment=CONDOR_CONFIG=/opt/condor/etc/condor_config
+ExecStartPre=/bin/find /etc/rc.d/rocksconfig.d -name 'post-90-condor-*' -exec {} \; 
 ExecStart=/opt/condor/sbin/condor_master
+ExecStop=/bin/pkill condor_master
 
 [Install]
 WantedBy=multiuser.target
