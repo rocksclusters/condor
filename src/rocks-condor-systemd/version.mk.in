@@ -1,0 +1,6 @@
+NAME		= rocks-condor-systemd
+RELEASE		= 0
+PKGROOT		= /etc/systemd/system
+SCRIPTS 	= rocks-condor.service 
+RPM.SCRIPTLETS.FILE = scriptlets
+RPM.FILES	= $(PKGROOT)/*

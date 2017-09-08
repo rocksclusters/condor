@@ -116,8 +116,8 @@ version.mk: version.mk.in ../../condor.version.mk
 build:
 
 install::
-	mkdir -p $(ROOT)/etc/profile.d
-	install -m555 $(PROFILES) $(ROOT)/etc/profile.d
+	mkdir -p $(ROOT)/etc/init.d/rc.d
+	install -m555 $(INITFILES) $(ROOT)/etc/init.d/rc.d
 
 clean::
 	- rm -rf $(NAME)-$(VERSION)

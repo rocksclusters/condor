@@ -119,10 +119,12 @@
 
 	<package>htcondor</package>
 	<package>rocks-condor</package>
+	<package cond="rocks_version_major == 6">rocks-condor-init</package>
+	<package cond="rocks_version_major == 7">rocks-condor-systemd</package>
 	<package>roll-htcondor-usersguide</package>
 	<package>compat-libstdc++-33</package>
-	<package>automake16</package>
-	<package>automake16</package>
+	<package cond="rocks_version_major == 6">automake16</package>
+	<package cond="rocks_version_major == 7">automake</package>
 	<package>perl-DateManip</package>
 	<package>perl-XML-Simple</package>
 
@@ -147,7 +149,6 @@ fi
 ### Create the Condor User
 /usr/sbin/groupadd  -g 407 condor 
 /usr/sbin/useradd -u 407 -g 407 -c "Condor Daemon Account" condor
-/sbin/chkconfig --add rocks-condor
 
 <file name="/opt/condor/etc/condor_config" vars="expanded">
 `/bin/cat /opt/condor/etc/examples/condor_config.generic | \
@@ -162,6 +163,13 @@ sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@
 
 chown -R 407.407 /var/opt/condor
 
+</post>
+<post cond="rocks_version_major == 6">
+/sbin/chkconfig --add rocks-condor
+</post>
+
+<post cond="rocks_version_major == 7">
+systemctl enable rocks-condor
 </post>
 
 </kickstart> 

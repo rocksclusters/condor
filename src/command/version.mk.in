@@ -1,3 +1,8 @@
 NAME = rocks-condor-command
 ROLL = htcondor
 RELEASE = 3
+RPM.FILES = \
+$(PY.ROCKS)/rocks/commands/create/condor\n\
+$(PY.ROCKS)/rocks/commands/sync/condor\n\
+$(PY.ROCKS)/rocks/commands/sync/host/condor\n\
+$(PY.ROCKS)/rocks/commands/report/host/condor

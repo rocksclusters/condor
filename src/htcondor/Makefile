@@ -201,10 +201,13 @@ endif
 
 TARNAME = condor
 NAME = ht$(TARNAME)
-ifeq ($(VERSION.MAJOR),5)
-EXT  = x86$(X86_64)_rhap_5.8-stripped
-else
+ifeq ($(VERSION.MAJOR),6)
+PRELINK = prelink
 EXT  = x86$(X86_64)_RedHat6-stripped
+endif
+ifeq ($(VERSION.MAJOR),7)
+EXT  = x86$(X86_64)_RedHat7-stripped
+PRELINK = echo
 endif
 
 TARBALL = $(TARNAME)-$(VERSION)-$(EXT)
@@ -223,8 +226,8 @@ install::
 		rmdir $(TARNAME)-$(VERSION)-$(EXT)	\
 	)
 	mkdir -p $(ROOT)/$(PKGROOT)/etc/config.d
-	find $(ROOT)/$(PKGROOT) -name '*so.[0-9]*' -exec prelink --undo {} \; -print
-	find $(ROOT)/$(PKGROOT) -name 'libssl3.so' -exec prelink --undo {} \; -print
+	find $(ROOT)/$(PKGROOT) -name '*so.[0-9]*' -exec $(PRELINK) --undo {} \; -print
+	find $(ROOT)/$(PKGROOT) -name 'libssl3.so' -exec $(PRELINK) --undo {} \; -print
 
 clean::
 	- rm -rf $(TARNAME)-$(VERSION)-$(EXT)

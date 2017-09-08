@@ -1,6 +1,6 @@
 ROLL = htcondor
 NAME    = roll-$(ROLL)-usersguide
-MANUALRELEASE = V8_4_1
+MANUALRELEASE = V8_6_5
 RPM.ARCH = noarch
 
 SUMMARY_COMPATIBLE	= $(VERSION)
@@ -10,3 +10,4 @@ SUMMARY_ARCHITECTURE	= i386, x86_64
 ROLL_REQUIRES		= base kernel os
 ROLL_CONFLICTS		=
 
+RPM.FILES = /var/www/html/roll-documentation/condor/$(VERSION)

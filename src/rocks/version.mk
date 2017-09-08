@@ -2,3 +2,5 @@ ROLL_RELEASE = 1
 RELEASE = $(ROLL_RELEASE)
 CONDOR_VERSION = 8.6.5
 VERSION = $(CONDOR_VERSION)
+NAME		= rocks-condor
+RPM.FILES	= /etc/profile.d/*

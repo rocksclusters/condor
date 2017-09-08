@@ -1,3 +1,5 @@
 NAME = htcondor
 
 RPM.EXTRAS="%define _use_internal_dependency_generator 0\\n%define __find_requires %{_builddir}/%{name}-%{version}/filter-requires.sh\\n%define __find_provides %{_rpmconfigdir}/find-provides\\n%define __os_install_post %{nil}"
+
+RPM.FILES = /opt/condor

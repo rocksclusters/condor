@@ -1,1 +1,2 @@
 NAME		= rocks-condor
+RPM.FILES	= /etc/profile.d/*
