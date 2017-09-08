@@ -296,12 +296,16 @@ fi
 
 . /etc/profile.d/rocks-condor.sh
 /opt/rocks/bin/rocks report host condor config &hostname; | /opt/rocks/bin/rocks report script | /bin/sh
+
+## Remove this script
+/bin/rm $(readlink -f $0) 
 </file>
 
 <!-- Give apache rights to cat pool password -->
 <file name="/etc/sudoers" mode="append" perms="0440">
 apache ALL=(ALL) NOPASSWD: /bin/cat /var/opt/condor/pool_password
 </file>
+
 
 </post>
 
