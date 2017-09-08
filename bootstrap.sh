@@ -141,7 +141,7 @@ compile_and_install htcondor
 compile rocks
 install rocks-condor
 
-install_os_packages htcondor
+install_os_packages condor
 
 # Make sure we have the condor account
 # will complain if condor already exists, can ignore
