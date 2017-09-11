@@ -137,6 +137,7 @@ class Command(rocks.commands.HostArgumentProcessor,
                 ### Define. When Adding new ones, Add them here.
 		self.dict = {}
 		self.dict['ALLOW_WRITE']         = '$(HOSTALLOW_WRITE)' 
+		self.dict['ALLOW_ADMINISTRATOR'] = '$(CONDOR_HOST),$(FULL_HOSTNAME)' 
 		self.dict['COLLECTOR_NAME']      = None
 		self.dict['COLLECTOR_SOCKET_CACHE_SIZE']      = 1000 
 		self.dict['CONDOR_ADMIN']        = None

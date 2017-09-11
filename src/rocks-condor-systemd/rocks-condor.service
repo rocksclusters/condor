@@ -9,4 +9,4 @@ ExecStart=/opt/condor/sbin/condor_master
 ExecStop=/bin/pkill condor_master
 
 [Install]
-WantedBy=multiuser.target
+WantedBy=multi-user.target
