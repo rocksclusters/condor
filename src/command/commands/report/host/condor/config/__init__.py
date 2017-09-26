@@ -136,8 +136,10 @@ class Command(rocks.commands.HostArgumentProcessor,
 		### These are the Condor Parameters that we will 
                 ### Define. When Adding new ones, Add them here.
 		self.dict = {}
+		self.dict['ALLOW_ADMINISTRATOR'] = '$(CONDOR_HOST),$(FULL_HOSTNAME),$(NETWORK_INTERFACE)' 
+		self.dict['ALLOW_NEGOTIATOR'] = '$(ALLOW_ADMINISTRATOR)' 
 		self.dict['ALLOW_WRITE']         = '$(HOSTALLOW_WRITE)' 
-		self.dict['ALLOW_ADMINISTRATOR'] = '$(CONDOR_HOST),$(FULL_HOSTNAME)' 
+		self.dict['ALLOW_WRITE']         = '$(HOSTALLOW_WRITE)' 
 		self.dict['COLLECTOR_NAME']      = None
 		self.dict['COLLECTOR_SOCKET_CACHE_SIZE']      = 1000 
 		self.dict['CONDOR_ADMIN']        = None
@@ -201,7 +203,7 @@ class Command(rocks.commands.HostArgumentProcessor,
 	def defineInternalStateVars(self):
 		self.user = "condor"
 		self.cm_fqdn = self.db.getHostAttr('localhost', 'Condor_Master')
-		self.cm_domainName = self.cm_fqdn[string.find(self.cm_fqdn, '.')+1:]
+		self.cm_domainName =self.db.getHostAttr('localhost','Kickstart_PublicDNSDomain') 
 		self.localDomain = self.db.getHostAttr('localhost','Kickstart_PrivateDNSDomain')
 	def getUID(self):
 		""" finds condor's uid and gid """
@@ -286,7 +288,7 @@ class Command(rocks.commands.HostArgumentProcessor,
  
 		self.dict['CONDOR_ADMIN']                = 'condor@%s' % self.cm_fqdn
 		self.dict['CONDOR_HOST']                 = self.cm_fqdn
-		self.dict['HOSTALLOW_WRITE'] = '%s, *.%s, *.%s' % (self.cm_fqdn,self.localDomain,self.dict['UID_DOMAIN'])
+		self.dict['HOSTALLOW_WRITE'] = '%s.%s, %s, *.%s, *.%s, $(NETWORK_INTERFACE)' % (self.cm_fqdn, self.cm_domainName, self.cm_fqdn,self.localDomain,self.dict['UID_DOMAIN'])
 		allowHosts=self.db.getHostAttr(self.host, 'Condor_HostAllow')
 		allowHosts.lstrip()
 		if len(allowHosts) > 1:
