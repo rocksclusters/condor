@@ -145,7 +145,9 @@ install_os_packages condor
 
 # Make sure we have the condor account
 # will complain if condor already exists, can ignore
-/usr/sbin/useradd -u 407 -c "Condor Daemon Account" condor
+### Create the Condor User
+/usr/bin/getent group condor > /dev/null || /usr/sbin/groupadd -r condor
+/usr/bin/getent passwd condor > /dev/null || /usr/sbin/useradd -r -g condor -c "Condor Daemon Account" condor
 
 # Get the Condor Environment
 . /etc/profile.d/rocks-condor.sh

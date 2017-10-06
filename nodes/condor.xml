@@ -147,8 +147,8 @@ condor_collector   9618/tcp     # Condor daemon
 fi
 
 ### Create the Condor User
-/usr/sbin/groupadd  -g 407 condor 
-/usr/sbin/useradd -u 407 -g 407 -c "Condor Daemon Account" condor
+/usr/bin/getent group condor &gt;/dev/null || /usr/sbin/groupadd -r condor 
+/usr/bin/getent passwd condor &gt;/dev/null || /usr/sbin/useradd -r -g condor -c "Condor Daemon Account" condor 
 
 <file name="/opt/condor/etc/condor_config" vars="expanded">
 `/bin/cat /opt/condor/etc/examples/condor_config.generic | \
