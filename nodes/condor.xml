@@ -161,7 +161,7 @@ sed -e 's@^LOCAL_DIR.*@LOCAL_DIR = /var/opt/condor@' -e 's@^LOCAL_CONFIG_FILE.*@
 /bin/mkdir -p /var/opt/condor/spool
 /bin/mkdir -p /var/opt/condor/cred_dir
 
-chown -R 407.407 /var/opt/condor
+chown -R condor:condor /var/opt/condor
 
 </post>
 <post cond="rocks_version_major == 6">

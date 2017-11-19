@@ -285,7 +285,7 @@ mkdir $LOCAL_DIR/spool
 mkdir $LOCAL_DIR/cred_dir
 mkdir $LOCAL_DIR/execute
 
-chown -R condor.condor $LOCAL_DIR
+chown -R condor:condor $LOCAL_DIR
 chmod a+rx  $LOCAL_DIR
 
 /opt/rocks/bin/rocks sync users &gt; /dev/null 2&gt;&amp;1

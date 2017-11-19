@@ -146,7 +146,6 @@ class Command(rocks.commands.HostArgumentProcessor,
 		self.dict['CONDOR_DEVELOPERS']   = 'NONE'
 		self.dict['CONDOR_DEVELOPERS_COLLECTOR'] = 'NONE'
 		self.dict['CONDOR_HOST']         = None
-		self.dict['CONDOR_IDS']          = None
 		self.dict['CONDOR_SSHD']         = '/usr/sbin/sshd'
 		self.dict['CONDOR_SSH_KEYGEN']   = '/usr/bin/ssh-keygen'
 		self.dict['CONTINUE']            = 'True'
@@ -195,7 +194,6 @@ class Command(rocks.commands.HostArgumentProcessor,
 	def fillFromDerived(self):
 		## Get the Condor User ID, Group ID
 		self.getUID()
-		self.dict['CONDOR_IDS'] = '%s.%s' % (self.uid, self.gid)
 
 		self.dict['CONDOR_ADMIN']                = 'condor@%s' % self.cm_fqdn
 		self.dict['CONDOR_HOST']                 = self.cm_fqdn
