@@ -1,5 +1,7 @@
 [Unit]
 Description=HTCondor Services
+Wants=rocks-rc-post.service
+After=rocks-rc-post.service
 
 [Service]
 Type=forking
